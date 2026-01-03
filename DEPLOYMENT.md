@@ -8,7 +8,7 @@ When connecting your GitHub repository to Cloudflare Pages, use the following se
 
 | Setting | Value | Description |
 |---------|-------|-------------|
-| **Framework Preset** | `Vite` | Select this to auto-fill defaults |
+| **Framework Preset** | `None` | Select **None** if Vite is not listed |
 | **Build Command** | `npm run build` | Command to compile the app |
 | **Build Output Directory** | `dist` | Folder containing built assets |
 | **Root Directory** | `frontend` | **Important:** The app lives in this subdirectory |
