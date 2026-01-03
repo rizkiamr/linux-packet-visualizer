@@ -7,13 +7,19 @@ export function FunctionEdge({
     fromY,
     toX,
     toY,
+    orientation = 'vertical',
     isActive = false,
     isTraversed = false
 }) {
-    // Calculate control points for a smooth curve
-    // Edges typically go downward, so we create a nice vertical curve
-    const midY = (fromY + toY) / 2;
-    const path = `M ${fromX} ${fromY} C ${fromX} ${midY}, ${toX} ${midY}, ${toX} ${toY}`;
+    let path;
+
+    if (orientation === 'horizontal') {
+        const midX = (fromX + toX) / 2;
+        path = `M ${fromX} ${fromY} C ${midX} ${fromY}, ${midX} ${toY}, ${toX} ${toY}`;
+    } else {
+        const midY = (fromY + toY) / 2;
+        path = `M ${fromX} ${fromY} C ${fromX} ${midY}, ${toX} ${midY}, ${toX} ${toY}`;
+    }
 
     const classes = [
         'function-edge',
@@ -25,7 +31,7 @@ export function FunctionEdge({
         <path
             className={classes}
             d={path}
-            markerEnd="url(#arrowhead)"
+            markerEnd={isActive ? "url(#arrowhead-active)" : "url(#arrowhead)"}
             data-edge-id={id}
         />
     );
@@ -37,35 +43,43 @@ export function FunctionEdge({
 export function EdgeMarkers() {
     return (
         <defs>
-            {/* Default arrowhead */}
+            {/* Default arrowhead (Open V-shape) */}
             <marker
                 id="arrowhead"
-                markerWidth="10"
-                markerHeight="7"
-                refX="9"
-                refY="3.5"
+                markerWidth="12"
+                markerHeight="12"
+                refX="10"
+                refY="6"
                 orient="auto"
-                markerUnits="strokeWidth"
+                markerUnits="userSpaceOnUse"
             >
-                <polygon
-                    points="0 0, 10 3.5, 0 7"
-                    fill="currentColor"
+                <polyline
+                    points="0 0, 10 6, 0 12"
+                    fill="none"
+                    stroke="var(--edge-default)"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                 />
             </marker>
 
-            {/* Active arrowhead (glowing) */}
+            {/* Active arrowhead (Open V-shape, glowing) */}
             <marker
                 id="arrowhead-active"
-                markerWidth="10"
-                markerHeight="7"
-                refX="9"
-                refY="3.5"
+                markerWidth="12"
+                markerHeight="12"
+                refX="10"
+                refY="6"
                 orient="auto"
-                markerUnits="strokeWidth"
+                markerUnits="userSpaceOnUse"
             >
-                <polygon
-                    points="0 0, 10 3.5, 0 7"
-                    fill="var(--edge-active)"
+                <polyline
+                    points="0 0, 10 6, 0 12"
+                    fill="none"
+                    stroke="var(--edge-active)"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                 />
             </marker>
 

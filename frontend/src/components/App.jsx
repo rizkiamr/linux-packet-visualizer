@@ -34,6 +34,14 @@ export function App() {
         setSelectedPath(pathId);
     };
 
+    // Jump to specific step when node is clicked
+    const handleNodeClick = (functionId) => {
+        const index = simulation?.findIndex(step => step.functionId === functionId || step.function.id === functionId);
+        if (index !== -1) {
+            sim.goTo(index);
+        }
+    };
+
     if (loading) {
         return (
             <div className="app">
@@ -80,6 +88,7 @@ export function App() {
                     currentFunctionId={sim.currentStep?.function?.id}
                     traversedEdges={sim.traversedEdges}
                     isPlaying={sim.isPlaying}
+                    onNodeClick={handleNodeClick}
                 />
             </div>
 
