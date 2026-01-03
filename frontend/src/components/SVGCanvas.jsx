@@ -24,10 +24,14 @@ export function SVGCanvas({
     }, []);
 
     // SVG Layout Constants
-    const nodeWidth = 150;
-    const nodeHeight = 50;
-    const nodeSpacingX = 250;
-    const nodeSpacingY = 80; // Vertical spacing between rows in same layer
+    // Mobile Breakpoint
+    const isMobile = windowSize.width < 768;
+
+    // SVG Layout Constants
+    const nodeWidth = isMobile ? 120 : 150;
+    const nodeHeight = isMobile ? 40 : 50;
+    const nodeSpacingX = isMobile ? 150 : 250;
+    const nodeSpacingY = isMobile ? 60 : 80;
 
     // Determine direction
     const isIngress = path?.direction === 'ingress';
@@ -49,8 +53,9 @@ export function SVGCanvas({
         // Calculate available width for content (excluding sidebar approx 320px + margins)
         // Safer to assume some padding. 
         // We want to wrap BEFORE the horizontal scrollbar would appear.
-        const canvasWidth = windowSize.width - 340;
-        const maxRowWidth = Math.max(800, canvasWidth); // Ensure at least enough for a few nodes
+        const sidebarWidth = isMobile ? 0 : 320;
+        const canvasWidth = windowSize.width - sidebarWidth - 40;
+        const maxRowWidth = Math.max(isMobile ? 300 : 800, canvasWidth);
 
         const layerOrder = isIngress
             ? ['Device Driver', 'Data Link Layer', 'Network Layer', 'Transport Layer', 'Socket Layer']

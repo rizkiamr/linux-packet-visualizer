@@ -1048,3 +1048,32 @@ body {
   border-color: #2e7d32;
   color: #2e7d32;
 }
+/* ===================================
+   Mobile Layout
+   =================================== */
+@media (max-width: 768px) {
+  .app {
+    grid-template-columns: 1fr;
+    grid-template-rows: 60px 1fr auto auto;
+    grid-template-areas:
+      "header"
+      "canvas"
+      "sidebar"
+      "controls";
+    height: auto;
+    min-height: 100vh;
+  }
+
+  .sidebar {
+    border-left: none;
+    border-top: 1px solid var(--node-border);
+    max-height: none;
+    overflow: visible;
+  }
+  
+  .controls {
+    position: sticky;
+    bottom: 0;
+    z-index: 100;
+  }
+}
