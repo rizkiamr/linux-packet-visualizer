@@ -127,9 +127,12 @@
   --skb-payload: #c62828;
 
   /* Shadows */
+  /* Shadows */
   --shadow-glow: 0 0 20px rgba(2, 119, 189, 0.2);
   --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.1);
 }
+
+
 
 /* Reset */
 *,
@@ -213,7 +216,7 @@ body {
 .canvas-container {
   grid-area: canvas;
   background: var(--bg-primary);
-  overflow: hidden;
+  overflow: auto;
   position: relative;
 }
 
@@ -287,7 +290,7 @@ body {
 }
 
 .function-node:hover {
-  transform: translateY(-2px);
+  /* Removed transform to prevent flickering/jumping */
 }
 
 .function-node .node-bg {
@@ -297,9 +300,10 @@ body {
   transition: all var(--transition-fast);
 }
 
-.function-node:hover .node-bg {
+/* Increased specificity to override layer colors on hover */
+.function-node.function-node:hover .node-bg {
   fill: rgba(255, 255, 255, 0.08);
-  stroke: rgba(255, 255, 255, 0.2);
+  stroke: rgba(255, 255, 255, 0.5) !important;
 }
 
 .function-node.active .node-bg {
@@ -328,19 +332,19 @@ body {
 
 /* Layer-specific node accents */
 .function-node.layer-transport .node-bg {
-  stroke-color: var(--layer-transport-accent);
+  stroke: var(--layer-transport-accent);
 }
 
 .function-node.layer-network .node-bg {
-  stroke-color: var(--layer-network-accent);
+  stroke: var(--layer-network-accent);
 }
 
 .function-node.layer-datalink .node-bg {
-  stroke-color: var(--layer-datalink-accent);
+  stroke: var(--layer-datalink-accent);
 }
 
 .function-node.layer-driver .node-bg {
-  stroke-color: var(--layer-driver-accent);
+  stroke: var(--layer-driver-accent);
 }
 
 .function-node.layer-transport.active .node-bg {
@@ -724,7 +728,7 @@ body {
 }
 
 .function-node.layer-socket .node-bg {
-  stroke-color: #9d4edd;
+  stroke: #9d4edd;
 }
 
 .function-node.layer-socket.active .node-bg {
