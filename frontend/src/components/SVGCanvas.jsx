@@ -23,15 +23,13 @@ export function SVGCanvas({
         return () => window.removeEventListener('resize', handleResize);
     }, []);
 
-    // SVG Layout Constants
     // Mobile Breakpoint
     const isMobile = windowSize.width < 768;
 
-    // SVG Layout Constants
-    const nodeWidth = isMobile ? 120 : 150;
+    // SVG Layout Constants (Base values)
     const nodeHeight = isMobile ? 40 : 50;
-    const nodeSpacingX = isMobile ? 150 : 250;
     const nodeSpacingY = isMobile ? 60 : 80;
+    const nodeGapX = isMobile ? 30 : 80; // Horizontal gap between nodes
 
     // Determine direction
     const isIngress = path?.direction === 'ingress';
@@ -45,14 +43,21 @@ export function SVGCanvas({
         'Socket Layer': 'var(--layer-socket-bg)',
     };
 
+    // Helper to calculate dynamic width
+    const getDynamicWidth = (name) => {
+        const charWidth = isMobile ? 7.5 : 9; // Approx px per char
+        const padding = 40;
+        const minW = isMobile ? 120 : 150;
+        const textWidth = (name.length * charWidth) + padding;
+        return Math.max(minW, textWidth);
+    };
+
     // Calculate Layout
     const layout = useMemo(() => {
         if (!path?.functions) return null;
 
         const positions = {};
-        // Calculate available width for content (excluding sidebar approx 320px + margins)
-        // Safer to assume some padding. 
-        // We want to wrap BEFORE the horizontal scrollbar would appear.
+
         const sidebarWidth = isMobile ? 0 : 320;
         const canvasWidth = windowSize.width - sidebarWidth - 40;
         const maxRowWidth = Math.max(isMobile ? 300 : 800, canvasWidth);
@@ -73,8 +78,6 @@ export function SVGCanvas({
 
         layerOrder.forEach(layerName => {
             const funcs = functionsByLayer[layerName] || [];
-            // Even if empty, we might want to show the layer? 
-            // Current app only shows occupied layers usually, but let's stick to showing what we have.
             if (funcs.length === 0) return;
 
             let row = 0;
@@ -82,8 +85,10 @@ export function SVGCanvas({
             const layerStartY = currentY;
 
             funcs.forEach((fn) => {
+                const thisWidth = getDynamicWidth(fn.name);
+
                 // Check wrap
-                if (currentX + nodeWidth + 20 > maxRowWidth) {
+                if (currentX + thisWidth + 20 > maxRowWidth) {
                     row++;
                     currentX = 60;
                 }
@@ -91,8 +96,8 @@ export function SVGCanvas({
                 // Layout: Grid with slight vertical separation for rows
                 const y = layerStartY + 40 + (row * nodeSpacingY);
 
-                positions[fn.id] = { x: currentX, y };
-                currentX += nodeSpacingX;
+                positions[fn.id] = { x: currentX, y, width: thisWidth };
+                currentX += thisWidth + nodeGapX;
             });
 
             const layerHeight = (row + 1) * nodeSpacingY + 80;
@@ -130,14 +135,13 @@ export function SVGCanvas({
             if (!fromPos || !toPos) return null;
 
             // Determine if horizontal (same row)
-            // Ideally checked by Y difference being small
             const sameRow = Math.abs(fromPos.y - toPos.y) < 20;
 
             // If same row and moving right -> Horizontal
             if (sameRow && toPos.x > fromPos.x) {
                 return {
                     id: `${edge.from}-${edge.to}`,
-                    fromX: fromPos.x + nodeWidth,
+                    fromX: fromPos.x + fromPos.width, // Use dynamic width
                     fromY: fromPos.y + nodeHeight / 2,
                     toX: toPos.x,
                     toY: toPos.y + nodeHeight / 2,
@@ -145,14 +149,12 @@ export function SVGCanvas({
                 };
             }
 
-            // Otherwise (Cross-row or Cross-layer) -> Vertical
-            // Right-to-Left or wrapping usually flows downwards or across.
-            // Vertical connection points (Bottom -> Top) work best for wrapping too.
+            // Vertical
             return {
                 id: `${edge.from}-${edge.to}`,
-                fromX: fromPos.x + nodeWidth / 2,
+                fromX: fromPos.x + fromPos.width / 2, // Center of dynamic width
                 fromY: fromPos.y + nodeHeight,
-                toX: toPos.x + nodeWidth / 2,
+                toX: toPos.x + toPos.width / 2, // Center of dynamic width
                 toY: toPos.y,
                 orientation: 'vertical'
             };
@@ -166,7 +168,7 @@ export function SVGCanvas({
         }
         const pos = layout.positions[currentFunctionId];
         return {
-            x: pos.x + nodeWidth / 2,
+            x: pos.x + pos.width / 2,
             y: pos.y + nodeHeight / 2,
         };
     }, [currentFunctionId, layout]);
@@ -241,7 +243,7 @@ export function SVGCanvas({
                             {...fn}
                             x={pos.x}
                             y={pos.y}
-                            width={nodeWidth}
+                            width={pos.width} // Dynamic width
                             height={nodeHeight}
                             isActive={fn.id === currentFunctionId}
                             onClick={() => onNodeClick && onNodeClick(fn.id)}
