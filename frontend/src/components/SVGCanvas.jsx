@@ -27,8 +27,8 @@ export function SVGCanvas({
     const isMobile = windowSize.width < 768;
 
     // SVG Layout Constants (Base values)
-    const nodeHeight = isMobile ? 40 : 50;
-    const nodeSpacingY = isMobile ? 60 : 80;
+    const baseNodeHeight = isMobile ? 40 : 50;
+    const verticalGap = isMobile ? 60 : 80; // Gap between rows
     const nodeGapX = isMobile ? 30 : 80; // Horizontal gap between nodes
 
     // Determine direction
@@ -50,6 +50,18 @@ export function SVGCanvas({
         const minW = isMobile ? 120 : 150;
         const textWidth = (name.length * charWidth) + padding;
         return Math.max(minW, textWidth);
+    };
+
+    // Helper to calculate dynamic height based on badges
+    const getDynamicHeight = (fn) => {
+        let h = baseNodeHeight;
+        const hasNetfilter = !!fn.netfilterHook;
+        const hasBpf = !!fn.bpfHook;
+
+        if (hasNetfilter && hasBpf) h += 38;
+        else if (hasNetfilter || hasBpf) h += 20;
+
+        return h;
     };
 
     // Calculate Layout
@@ -80,27 +92,37 @@ export function SVGCanvas({
             const funcs = functionsByLayer[layerName] || [];
             if (funcs.length === 0) return;
 
-            let row = 0;
             let currentX = 60;
             const layerStartY = currentY;
 
+            // Track row max height to adjust next row's Y
+            let rowMaxHeight = baseNodeHeight;
+            let rowStartY = layerStartY + 40; // Start first row with padding
+
             funcs.forEach((fn) => {
                 const thisWidth = getDynamicWidth(fn.name);
+                const thisHeight = getDynamicHeight(fn);
 
                 // Check wrap
                 if (currentX + thisWidth + 20 > maxRowWidth) {
-                    row++;
+                    // Move to next row
+                    // Add previous row's specific height + gap
+                    rowStartY += rowMaxHeight + verticalGap;
                     currentX = 60;
+                    rowMaxHeight = baseNodeHeight; // Reset for new row
                 }
 
-                // Layout: Grid with slight vertical separation for rows
-                const y = layerStartY + 40 + (row * nodeSpacingY);
-
-                positions[fn.id] = { x: currentX, y, width: thisWidth };
+                positions[fn.id] = { x: currentX, y: rowStartY, width: thisWidth, height: thisHeight };
                 currentX += thisWidth + nodeGapX;
+
+                // Update row height if this node is taller
+                rowMaxHeight = Math.max(rowMaxHeight, thisHeight);
             });
 
-            const layerHeight = (row + 1) * nodeSpacingY + 80;
+            // Calculate total layer height
+            // Last row's bottom is rowStartY + rowMaxHeight
+            const layerBottom = rowStartY + rowMaxHeight + 40; // padding
+            const layerHeight = layerBottom - layerStartY;
 
             // Helper for class name
             let className = '';
@@ -135,6 +157,7 @@ export function SVGCanvas({
             if (!fromPos || !toPos) return null;
 
             // Determine if horizontal (same row)
+            // Ideally checked by Y difference being small
             const sameRow = Math.abs(fromPos.y - toPos.y) < 20;
 
             // If same row and moving right -> Horizontal
@@ -142,9 +165,9 @@ export function SVGCanvas({
                 return {
                     id: `${edge.from}-${edge.to}`,
                     fromX: fromPos.x + fromPos.width, // Use dynamic width
-                    fromY: fromPos.y + nodeHeight / 2,
+                    fromY: fromPos.y + baseNodeHeight / 2, // Use base center
                     toX: toPos.x,
-                    toY: toPos.y + nodeHeight / 2,
+                    toY: toPos.y + baseNodeHeight / 2,
                     orientation: 'horizontal'
                 };
             }
@@ -152,10 +175,10 @@ export function SVGCanvas({
             // Vertical
             return {
                 id: `${edge.from}-${edge.to}`,
-                fromX: fromPos.x + fromPos.width / 2, // Center of dynamic width
-                fromY: fromPos.y + nodeHeight,
-                toX: toPos.x + toPos.width / 2, // Center of dynamic width
-                toY: toPos.y,
+                fromX: fromPos.x + fromPos.width / 2,
+                fromY: fromPos.y + fromPos.height, // Bottom of dynamic height
+                toX: toPos.x + toPos.width / 2,
+                toY: toPos.y, // Top
                 orientation: 'vertical'
             };
         }).filter(Boolean);
@@ -169,7 +192,7 @@ export function SVGCanvas({
         const pos = layout.positions[currentFunctionId];
         return {
             x: pos.x + pos.width / 2,
-            y: pos.y + nodeHeight / 2,
+            y: pos.y + baseNodeHeight / 2,
         };
     }, [currentFunctionId, layout]);
 
@@ -243,8 +266,8 @@ export function SVGCanvas({
                             {...fn}
                             x={pos.x}
                             y={pos.y}
-                            width={pos.width} // Dynamic width
-                            height={nodeHeight}
+                            width={pos.width}
+                            height={baseNodeHeight} // Pass base height, FunctionNode handles badge expansion
                             isActive={fn.id === currentFunctionId}
                             onClick={() => onNodeClick && onNodeClick(fn.id)}
                         />
