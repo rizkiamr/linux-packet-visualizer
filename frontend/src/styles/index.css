@@ -1,0 +1,1046 @@
+/* ===================================
+   Linux Packet Visualizer - Core Styles
+   =================================== */
+
+/* Dark Theme (default) */
+:root,
+[data-theme="dark"] {
+  /* Color Palette - Dark Theme */
+  --bg-primary: #0a0a0f;
+  --bg-secondary: #12121a;
+  --bg-tertiary: #1a1a2e;
+
+  /* Layer Colors */
+  --layer-user-bg: #1a1a2e;
+  --layer-user-accent: #e94560;
+  --layer-socket-bg: #1e1e3a;
+  --layer-socket-accent: #9d4edd;
+
+  --layer-transport-bg: #16213e;
+  --layer-transport-accent: #00d9ff;
+
+  --layer-network-bg: #0f3460;
+  --layer-network-accent: #00ff88;
+
+  --layer-datalink-bg: #1a1a2e;
+  --layer-datalink-accent: #ffd700;
+
+  --layer-driver-bg: #0d0d0d;
+  --layer-driver-accent: #ff6b35;
+
+  /* Text Colors */
+  --text-primary: #ffffff;
+  --text-secondary: #a0a0a0;
+  --text-muted: #606060;
+
+  /* Node Colors */
+  --node-bg: rgba(255, 255, 255, 0.05);
+  --node-border: rgba(255, 255, 255, 0.1);
+  --node-active: rgba(0, 217, 255, 0.3);
+
+  /* Edge Colors */
+  --edge-default: rgba(255, 255, 255, 0.2);
+  --edge-active: #00d9ff;
+
+  /* Packet Colors */
+  --packet-glow: #00d9ff;
+
+  /* sk_buff Colors */
+  --skb-headroom: #2d2d3a;
+  --skb-data: #00d9ff;
+  --skb-tailroom: #2d2d3a;
+  --skb-ethernet: #ffd700;
+  --skb-ip: #00ff88;
+  --skb-tcp: #00d9ff;
+  --skb-payload: #e94560;
+
+  /* Spacing */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+
+  /* Typography */
+  --font-mono: 'JetBrains Mono', 'Fira Code', 'SF Mono', monospace;
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+
+  /* Transitions */
+  --transition-fast: 150ms ease;
+  --transition-normal: 300ms ease;
+  --transition-slow: 500ms ease;
+
+  /* Shadows */
+  --shadow-glow: 0 0 20px rgba(0, 217, 255, 0.3);
+  --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Light Theme */
+[data-theme="light"] {
+  /* Color Palette - Light Theme */
+  --bg-primary: #f8f9fa;
+  --bg-secondary: #ffffff;
+  --bg-tertiary: #e9ecef;
+
+  /* Layer Colors - Lighter versions */
+  --layer-user-bg: #fce4ec;
+  --layer-user-accent: #c62828;
+  --layer-socket-bg: #f3e5f5;
+  --layer-socket-accent: #7b1fa2;
+
+  --layer-transport-bg: #e3f2fd;
+  --layer-transport-accent: #0277bd;
+
+  --layer-network-bg: #e8f5e9;
+  --layer-network-accent: #2e7d32;
+
+  --layer-datalink-bg: #fff8e1;
+  --layer-datalink-accent: #f57f17;
+
+  --layer-driver-bg: #f5f5f5;
+  --layer-driver-accent: #d84315;
+
+  /* Text Colors */
+  --text-primary: #212529;
+  --text-secondary: #6c757d;
+  --text-muted: #adb5bd;
+
+  /* Node Colors */
+  --node-bg: rgba(0, 0, 0, 0.03);
+  --node-border: rgba(0, 0, 0, 0.1);
+  --node-active: rgba(2, 119, 189, 0.2);
+
+  /* Edge Colors */
+  --edge-default: rgba(0, 0, 0, 0.15);
+  --edge-active: #0277bd;
+
+  /* Packet Colors */
+  --packet-glow: #0277bd;
+
+  /* sk_buff Colors */
+  --skb-headroom: #e0e0e0;
+  --skb-data: #0277bd;
+  --skb-tailroom: #e0e0e0;
+  --skb-ethernet: #f57f17;
+  --skb-ip: #2e7d32;
+  --skb-tcp: #0277bd;
+  --skb-payload: #c62828;
+
+  /* Shadows */
+  --shadow-glow: 0 0 20px rgba(2, 119, 189, 0.2);
+  --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Reset */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  font-family: var(--font-sans);
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#root {
+  height: 100%;
+}
+
+/* Utility Classes */
+.mono {
+  font-family: var(--font-mono);
+}
+
+/* ===================================
+   Main Layout
+   =================================== */
+
+.app {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  grid-template-rows: 60px 1fr 80px;
+  grid-template-areas:
+    "header header"
+    "canvas sidebar"
+    "controls sidebar";
+  height: 100vh;
+  gap: 1px;
+  background: var(--bg-secondary);
+}
+
+.app-header {
+  grid-area: header;
+  background: var(--bg-tertiary);
+  display: flex;
+  align-items: center;
+  padding: 0 var(--spacing-lg);
+  border-bottom: 1px solid var(--node-border);
+}
+
+.app-header h1 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.app-header h1 span {
+  color: var(--layer-transport-accent);
+}
+
+.app-header .kernel-version {
+  margin-left: var(--spacing-md);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  background: rgba(0, 217, 255, 0.1);
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-family: var(--font-mono);
+  color: var(--layer-transport-accent);
+}
+
+.canvas-container {
+  grid-area: canvas;
+  background: var(--bg-primary);
+  overflow: hidden;
+  position: relative;
+}
+
+.sidebar {
+  grid-area: sidebar;
+  background: var(--bg-tertiary);
+  border-left: 1px solid var(--node-border);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.controls-container {
+  grid-area: controls;
+  background: var(--bg-tertiary);
+  border-top: 1px solid var(--node-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-md);
+  padding: 0 var(--spacing-lg);
+}
+
+/* ===================================
+   SVG Canvas
+   =================================== */
+
+.svg-canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* Layer Backgrounds */
+.layer-bg {
+  transition: opacity var(--transition-normal);
+}
+
+.layer-bg.layer-transport {
+  fill: var(--layer-transport-bg);
+}
+
+.layer-bg.layer-network {
+  fill: var(--layer-network-bg);
+}
+
+.layer-bg.layer-datalink {
+  fill: var(--layer-datalink-bg);
+}
+
+.layer-bg.layer-driver {
+  fill: var(--layer-driver-bg);
+}
+
+.layer-label {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  fill: var(--text-muted);
+}
+
+/* ===================================
+   Function Nodes
+   =================================== */
+
+.function-node {
+  cursor: pointer;
+  transition: transform var(--transition-fast);
+}
+
+.function-node:hover {
+  transform: translateY(-2px);
+}
+
+.function-node .node-bg {
+  fill: var(--node-bg);
+  stroke: var(--node-border);
+  stroke-width: 1;
+  transition: all var(--transition-fast);
+}
+
+.function-node:hover .node-bg {
+  fill: rgba(255, 255, 255, 0.08);
+  stroke: rgba(255, 255, 255, 0.2);
+}
+
+.function-node.active .node-bg {
+  fill: var(--node-active);
+  stroke: var(--layer-transport-accent);
+  stroke-width: 2;
+}
+
+.function-node .node-name {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  fill: var(--text-primary);
+}
+
+.function-node .node-file {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  fill: var(--text-muted);
+}
+
+.function-node .mutation-indicator {
+  fill: var(--layer-network-accent);
+  opacity: 0.8;
+}
+
+/* Layer-specific node accents */
+.function-node.layer-transport .node-bg {
+  stroke-color: var(--layer-transport-accent);
+}
+
+.function-node.layer-network .node-bg {
+  stroke-color: var(--layer-network-accent);
+}
+
+.function-node.layer-datalink .node-bg {
+  stroke-color: var(--layer-datalink-accent);
+}
+
+.function-node.layer-driver .node-bg {
+  stroke-color: var(--layer-driver-accent);
+}
+
+.function-node.layer-transport.active .node-bg {
+  stroke: var(--layer-transport-accent);
+}
+
+.function-node.layer-network.active .node-bg {
+  stroke: var(--layer-network-accent);
+}
+
+.function-node.layer-datalink.active .node-bg {
+  stroke: var(--layer-datalink-accent);
+}
+
+.function-node.layer-driver.active .node-bg {
+  stroke: var(--layer-driver-accent);
+}
+
+/* ===================================
+   Edges
+   =================================== */
+
+.function-edge {
+  fill: none;
+  stroke: var(--edge-default);
+  stroke-width: 1.5;
+  transition: all var(--transition-normal);
+}
+
+.function-edge.active {
+  stroke: var(--edge-active);
+  stroke-width: 2;
+  filter: drop-shadow(0 0 4px var(--edge-active));
+}
+
+.function-edge.traversed {
+  stroke: rgba(0, 217, 255, 0.4);
+}
+
+/* ===================================
+   Packet Marker
+   =================================== */
+
+.packet-marker {
+  transition: transform var(--transition-slow);
+}
+
+.packet-marker circle {
+  fill: var(--packet-glow);
+  filter: drop-shadow(0 0 8px var(--packet-glow)) drop-shadow(0 0 16px var(--packet-glow));
+}
+
+.packet-marker.moving {
+  animation: packet-pulse 0.5s ease-in-out infinite;
+}
+
+@keyframes packet-pulse {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.7;
+  }
+}
+
+/* ===================================
+   Controls
+   =================================== */
+
+.control-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  background: var(--node-bg);
+  border: 1px solid var(--node-border);
+  border-radius: 8px;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.control-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.control-btn:active {
+  transform: scale(0.95);
+}
+
+.control-btn.primary {
+  width: 56px;
+  height: 56px;
+  background: var(--layer-transport-accent);
+  border-color: var(--layer-transport-accent);
+}
+
+.control-btn.primary:hover {
+  background: #00c4e6;
+}
+
+.control-btn svg {
+  width: 20px;
+  height: 20px;
+}
+
+.step-indicator {
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  min-width: 100px;
+  text-align: center;
+}
+
+.step-indicator .current {
+  color: var(--layer-transport-accent);
+  font-weight: 600;
+}
+
+/* ===================================
+   Sidebar - sk_buff Diagram
+   =================================== */
+
+.sidebar-section {
+  padding: var(--spacing-md);
+  border-bottom: 1px solid var(--node-border);
+}
+
+.sidebar-section h2 {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+  margin-bottom: var(--spacing-md);
+}
+
+.skbuff-diagram {
+  background: var(--bg-secondary);
+  border-radius: 8px;
+  padding: var(--spacing-md);
+  overflow: hidden;
+}
+
+.skbuff-bar {
+  display: flex;
+  height: 40px;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: var(--spacing-sm);
+}
+
+.skbuff-segment {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 500;
+  transition: flex-basis var(--transition-normal);
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.skbuff-segment.headroom {
+  background: var(--skb-headroom);
+  color: var(--text-muted);
+}
+
+.skbuff-segment.ethernet {
+  background: var(--skb-ethernet);
+  color: #000;
+}
+
+.skbuff-segment.ip {
+  background: var(--skb-ip);
+  color: #000;
+}
+
+.skbuff-segment.tcp {
+  background: var(--skb-tcp);
+  color: #000;
+}
+
+.skbuff-segment.payload {
+  background: var(--skb-payload);
+  color: #fff;
+}
+
+.skbuff-segment.tailroom {
+  background: var(--skb-tailroom);
+  color: var(--text-muted);
+}
+
+.skbuff-pointers {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-muted);
+  margin-top: var(--spacing-xs);
+}
+
+.skbuff-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-sm);
+  margin-top: var(--spacing-md);
+}
+
+.skbuff-stat {
+  background: var(--bg-primary);
+  padding: var(--spacing-sm);
+  border-radius: 4px;
+}
+
+.skbuff-stat .label {
+  font-size: 10px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.skbuff-stat .value {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+/* ===================================
+   Sidebar - Function Info
+   =================================== */
+
+.function-info {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.function-info .fn-name {
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--layer-transport-accent);
+  margin-bottom: var(--spacing-xs);
+}
+
+.function-info .fn-file {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-bottom: var(--spacing-md);
+}
+
+.function-info .fn-description {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.mutation-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  background: rgba(0, 255, 136, 0.1);
+  border: 1px solid rgba(0, 255, 136, 0.3);
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--layer-network-accent);
+  margin-top: var(--spacing-sm);
+}
+
+/* ===================================
+   Loading State
+   =================================== */
+
+.loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  gap: var(--spacing-md);
+}
+
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--node-border);
+  border-top-color: var(--layer-transport-accent);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.loading-text {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+/* ===================================
+   Path Selector
+   =================================== */
+
+.path-selector {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.path-select {
+  appearance: none;
+  background: var(--node-bg);
+  border: 1px solid var(--node-border);
+  border-radius: 6px;
+  padding: var(--spacing-sm) var(--spacing-md);
+  padding-right: var(--spacing-xl);
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23a0a0a0' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+}
+
+.path-select:hover {
+  border-color: rgba(255, 255, 255, 0.2);
+  background-color: rgba(255, 255, 255, 0.08);
+}
+
+.path-select:focus {
+  outline: none;
+  border-color: var(--layer-transport-accent);
+  box-shadow: 0 0 0 2px rgba(0, 217, 255, 0.2);
+}
+
+.path-select option {
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
+}
+
+.direction-badge {
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.direction-badge[data-direction="egress"] {
+  background: rgba(0, 217, 255, 0.15);
+  color: var(--layer-transport-accent);
+}
+
+.direction-badge[data-direction="ingress"] {
+  background: rgba(0, 255, 136, 0.15);
+  color: var(--layer-network-accent);
+}
+
+/* ===================================
+   Socket Layer (for ingress)
+   =================================== */
+
+.layer-bg.layer-socket {
+  fill: #1e1e3a;
+}
+
+.function-node.layer-socket .node-bg {
+  stroke-color: #9d4edd;
+}
+
+.function-node.layer-socket.active .node-bg {
+  stroke: #9d4edd;
+}
+
+/* ===================================
+   Ingress-specific Mutations
+   =================================== */
+
+.mutation-badge.pull {
+  background: rgba(255, 136, 0, 0.1);
+  border-color: rgba(255, 136, 0, 0.3);
+  color: #ff8800;
+}
+
+/* ===================================
+   Netfilter Hook Visualization
+   =================================== */
+
+/* Node indicator for hooks */
+.function-node.has-hook .node-bg {
+  stroke-width: 2;
+}
+
+/* Sidebar netfilter info */
+.netfilter-info {
+  margin-top: var(--spacing-md);
+  padding-top: var(--spacing-md);
+  border-top: 1px solid var(--node-border);
+}
+
+.netfilter-info h3 {
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  margin-bottom: var(--spacing-sm);
+}
+
+.netfilter-info .hook-badge {
+  display: inline-block;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  margin-bottom: var(--spacing-sm);
+}
+
+.netfilter-info .hook-description {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  margin-bottom: var(--spacing-sm);
+  line-height: 1.5;
+}
+
+.netfilter-info .hook-tables {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.netfilter-info .tables-label {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+.netfilter-info .table-tag {
+  display: inline-block;
+  padding: 2px 6px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--text-secondary);
+}
+
+/* Hook color classes for reference */
+.hook-prerouting {
+  background-color: #ff6b6b;
+}
+
+.hook-input {
+  background-color: #4ecdc4;
+}
+
+.hook-output {
+  background-color: #ffe66d;
+}
+
+.hook-postrouting {
+  background-color: #95e1d3;
+}
+
+.hook-forward {
+  background-color: #a8e6cf;
+}
+
+/* ===================================
+   eBPF/XDP Hook Visualization
+   =================================== */
+
+/* Node indicator for BPF hooks */
+.function-node.has-bpf .node-bg {
+  stroke-width: 2;
+  stroke-dasharray: 4 2;
+}
+
+/* Sidebar BPF info */
+.bpf-info {
+  margin-top: var(--spacing-md);
+  padding-top: var(--spacing-md);
+  border-top: 1px solid var(--node-border);
+}
+
+.bpf-info h3 {
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #ff00ff;
+  margin-bottom: var(--spacing-sm);
+}
+
+.bpf-info .hook-badge.bpf {
+  display: inline-block;
+  padding: var(--spacing-xs) var(--spacing-md);
+  border-radius: 12px;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  margin-bottom: var(--spacing-sm);
+}
+
+.bpf-info .hook-description {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  margin-bottom: var(--spacing-sm);
+  line-height: 1.5;
+}
+
+.bpf-info .hook-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.bpf-info .actions-label {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+.bpf-info .action-tag {
+  display: inline-block;
+  padding: 2px 6px;
+  background: rgba(255, 0, 255, 0.1);
+  border: 1px solid rgba(255, 0, 255, 0.3);
+  border-radius: 3px;
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  color: #ff00ff;
+}
+
+/* BPF hook color classes */
+.hook-xdp {
+  background-color: #ff00ff;
+}
+
+.hook-tc-ingress {
+  background-color: #00bfff;
+}
+
+.hook-tc-egress {
+  background-color: #1e90ff;
+}
+
+.hook-cgroup-skb {
+  background-color: #9370db;
+}
+
+.hook-socket {
+  background-color: #da70d6;
+}
+
+/* ===================================
+   Theme Toggle
+   =================================== */
+
+.theme-toggle {
+  background: var(--node-bg);
+  border: 1px solid var(--node-border);
+  border-radius: 8px;
+  padding: var(--spacing-sm);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-fast);
+  color: var(--text-primary);
+  margin-left: var(--spacing-sm);
+}
+
+.theme-toggle:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: var(--layer-transport-accent);
+}
+
+.theme-toggle svg {
+  transition: transform var(--transition-normal);
+}
+
+.theme-toggle:hover svg {
+  transform: rotate(15deg);
+}
+
+/* Light mode specific adjustments */
+[data-theme="light"] .theme-toggle:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+[data-theme="light"] .app-header {
+  border-bottom-color: rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="light"] .sidebar {
+  border-left-color: rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="light"] .controls {
+  border-top-color: rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="light"] .control-btn:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+/* ===================================
+   Connection Tracking
+   =================================== */
+
+.conntrack-info {
+  margin-top: var(--spacing-md);
+}
+
+.conntrack-state-container {
+  margin: var(--spacing-sm) 0;
+  text-align: center;
+}
+
+.conntrack-state-badge {
+  display: inline-block;
+  padding: var(--spacing-sm) var(--spacing-lg);
+  border-radius: 8px;
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+.conntrack-description {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin-bottom: var(--spacing-md);
+}
+
+.conntrack-state-diagram {
+  padding: var(--spacing-sm);
+  background: var(--node-bg);
+  border-radius: 6px;
+  overflow-x: auto;
+}
+
+.state-machine {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-xs);
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+}
+
+.state-node {
+  padding: 4px 8px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--node-border);
+  border-radius: 4px;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.state-node.active {
+  background: rgba(0, 255, 136, 0.2);
+  border-color: #00ff88;
+  color: #00ff88;
+  font-weight: 600;
+}
+
+.state-arrow {
+  color: var(--text-muted);
+}
+
+/* Light mode conntrack adjustments */
+[data-theme="light"] .state-node {
+  background: rgba(0, 0, 0, 0.03);
+}
+
+[data-theme="light"] .state-node.active {
+  background: rgba(46, 125, 50, 0.15);
+  border-color: #2e7d32;
+  color: #2e7d32;
+}

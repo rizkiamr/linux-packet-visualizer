@@ -1,0 +1,976 @@
+{
+  "version": "1.0.0",
+  "kernelVersion": "5.10.8",
+  "generatedAt": "2026-01-03T17:14:26Z",
+  "path": {
+    "id": "tcp_ipv4_egress",
+    "name": "TCP/IPv4 Egress Path",
+    "description": "The path of a TCP packet from user space through the kernel to the network interface (Linux 5.10.8)",
+    "direction": "egress",
+    "protocol": "TCP",
+    "functions": [
+      {
+        "id": "tcp_sendmsg",
+        "name": "tcp_sendmsg",
+        "layer": "Transport Layer",
+        "sourceFile": "net/ipv4/tcp.c",
+        "lineNumber": 1434,
+        "description": "Entry point for TCP send operations. Acquires socket lock and delegates to tcp_sendmsg_locked.",
+        "isEntryPoint": true
+      },
+      {
+        "id": "tcp_sendmsg_locked",
+        "name": "tcp_sendmsg_locked",
+        "layer": "Transport Layer",
+        "sourceFile": "net/ipv4/tcp.c",
+        "lineNumber": 1172,
+        "description": "Core TCP send logic. Allocates sk_buff and copies user data into kernel space.",
+        "skbMutation": {
+          "operation": "alloc",
+          "size": 2048,
+          "description": "Allocate sk_buff with headroom for all protocol headers"
+        }
+      },
+      {
+        "id": "tcp_push",
+        "name": "tcp_push",
+        "layer": "Transport Layer",
+        "sourceFile": "net/ipv4/tcp.c",
+        "lineNumber": 689,
+        "description": "Pushes pending data. Sets PSH flag if socket is being closed or buffer is full."
+      },
+      {
+        "id": "__tcp_push_pending_frames",
+        "name": "__tcp_push_pending_frames",
+        "layer": "Transport Layer",
+        "sourceFile": "net/ipv4/tcp_output.c",
+        "lineNumber": 2556,
+        "description": "Checks if there is data to send and initiates transmission."
+      },
+      {
+        "id": "tcp_write_xmit",
+        "name": "tcp_write_xmit",
+        "layer": "Transport Layer",
+        "sourceFile": "net/ipv4/tcp_output.c",
+        "lineNumber": 2387,
+        "description": "Main TCP transmission loop. Handles congestion control, pacing, and TSO segmentation."
+      },
+      {
+        "id": "__tcp_transmit_skb",
+        "name": "__tcp_transmit_skb",
+        "layer": "Transport Layer",
+        "sourceFile": "net/ipv4/tcp_output.c",
+        "lineNumber": 1164,
+        "description": "Builds the TCP header. Calculates checksum and sets sequence numbers.",
+        "skbMutation": {
+          "operation": "push",
+          "headerType": "tcp",
+          "size": 20,
+          "description": "Push tcp header"
+        }
+      },
+      {
+        "id": "ip_queue_xmit",
+        "name": "ip_queue_xmit",
+        "layer": "Network Layer",
+        "sourceFile": "net/ipv4/ip_output.c",
+        "lineNumber": 470,
+        "description": "Main IPv4 transmission entry point from transport layer. Handles routing lookup and IP header construction.",
+        "skbMutation": {
+          "operation": "push",
+          "headerType": "ip",
+          "size": 20,
+          "description": "Push ip header"
+        }
+      },
+      {
+        "id": "ip_local_out",
+        "name": "ip_local_out",
+        "layer": "Network Layer",
+        "sourceFile": "net/ipv4/ip_output.c",
+        "lineNumber": 115,
+        "description": "Wrapper for locally generated packets. Calls __ip_local_out."
+      },
+      {
+        "id": "__ip_local_out",
+        "name": "__ip_local_out",
+        "layer": "Network Layer",
+        "sourceFile": "net/ipv4/ip_output.c",
+        "lineNumber": 96,
+        "description": "Sets IP packet length and checksum. Invokes LOCAL_OUT netfilter hook."
+      },
+      {
+        "id": "ip_output",
+        "name": "ip_output",
+        "layer": "Network Layer",
+        "sourceFile": "net/ipv4/ip_output.c",
+        "lineNumber": 413,
+        "description": "Called after LOCAL_OUT hook. Invokes POST_ROUTING netfilter hook."
+      },
+      {
+        "id": "ip_finish_output",
+        "name": "ip_finish_output",
+        "layer": "Network Layer",
+        "sourceFile": "net/ipv4/ip_output.c",
+        "lineNumber": 311,
+        "description": "BPF cgroup egress hook point. Handles GSO segmentation if needed."
+      },
+      {
+        "id": "__ip_finish_output",
+        "name": "__ip_finish_output",
+        "layer": "Network Layer",
+        "sourceFile": "net/ipv4/ip_output.c",
+        "lineNumber": 287,
+        "description": "Checks MTU and fragments packet if necessary."
+      },
+      {
+        "id": "ip_finish_output2",
+        "name": "ip_finish_output2",
+        "layer": "Network Layer",
+        "sourceFile": "net/ipv4/ip_output.c",
+        "lineNumber": 187,
+        "description": "Resolves next-hop neighbor (ARP lookup) and prepares for L2 transmission."
+      },
+      {
+        "id": "neigh_output",
+        "name": "neigh_output",
+        "layer": "Network Layer",
+        "sourceFile": "include/net/neighbour.h",
+        "lineNumber": 510,
+        "description": "Neighbour subsystem output. Uses cached hardware header if available."
+      },
+      {
+        "id": "neigh_hh_output",
+        "name": "neigh_hh_output",
+        "layer": "Data Link Layer",
+        "sourceFile": "include/net/neighbour.h",
+        "lineNumber": 490,
+        "description": "Fast path using cached hardware header. Pushes Ethernet header.",
+        "skbMutation": {
+          "operation": "push",
+          "headerType": "ethernet",
+          "size": 14,
+          "description": "Push ethernet header"
+        }
+      },
+      {
+        "id": "dev_queue_xmit",
+        "name": "dev_queue_xmit",
+        "layer": "Data Link Layer",
+        "sourceFile": "net/core/dev.c",
+        "lineNumber": 4044,
+        "description": "Main device transmission entry point. Handles per-CPU processing."
+      },
+      {
+        "id": "__dev_queue_xmit",
+        "name": "__dev_queue_xmit",
+        "layer": "Data Link Layer",
+        "sourceFile": "net/core/dev.c",
+        "lineNumber": 3954,
+        "description": "Core queuing logic. Selects TX queue and enters qdisc."
+      },
+      {
+        "id": "__dev_xmit_skb",
+        "name": "__dev_xmit_skb",
+        "layer": "Data Link Layer",
+        "sourceFile": "net/core/dev.c",
+        "lineNumber": 3683,
+        "description": "Submits packet to qdisc. May queue or directly transmit based on qdisc state."
+      },
+      {
+        "id": "sch_direct_xmit",
+        "name": "sch_direct_xmit",
+        "layer": "Data Link Layer",
+        "sourceFile": "net/sched/sch_generic.c",
+        "lineNumber": 310,
+        "description": "Bypasses qdisc queue for direct transmission when possible."
+      },
+      {
+        "id": "dev_hard_start_xmit",
+        "name": "dev_hard_start_xmit",
+        "layer": "Device Driver",
+        "sourceFile": "net/core/dev.c",
+        "lineNumber": 3506,
+        "description": "Final generic layer before driver. Handles XDP and calls driver's ndo_start_xmit."
+      },
+      {
+        "id": "ndo_start_xmit",
+        "name": "ndo_start_xmit",
+        "layer": "Device Driver",
+        "sourceFile": "include/linux/netdevice.h",
+        "lineNumber": 1298,
+        "description": "Driver-specific transmit function. Pointer to actual driver implementation (e.g., e1000, virtio-net).",
+        "isExitPoint": true
+      }
+    ],
+    "edges": [
+      {
+        "from": "tcp_sendmsg",
+        "to": "tcp_sendmsg_locked",
+        "order": 1
+      },
+      {
+        "from": "tcp_sendmsg_locked",
+        "to": "tcp_push",
+        "order": 1
+      },
+      {
+        "from": "tcp_push",
+        "to": "__tcp_push_pending_frames",
+        "order": 1
+      },
+      {
+        "from": "__tcp_push_pending_frames",
+        "to": "tcp_write_xmit",
+        "order": 1
+      },
+      {
+        "from": "tcp_write_xmit",
+        "to": "__tcp_transmit_skb",
+        "order": 1
+      },
+      {
+        "from": "__tcp_transmit_skb",
+        "to": "ip_queue_xmit",
+        "order": 1
+      },
+      {
+        "from": "ip_queue_xmit",
+        "to": "ip_local_out",
+        "order": 1
+      },
+      {
+        "from": "ip_local_out",
+        "to": "__ip_local_out",
+        "order": 1
+      },
+      {
+        "from": "__ip_local_out",
+        "to": "ip_output",
+        "order": 1
+      },
+      {
+        "from": "ip_output",
+        "to": "ip_finish_output",
+        "order": 1
+      },
+      {
+        "from": "ip_finish_output",
+        "to": "__ip_finish_output",
+        "order": 1
+      },
+      {
+        "from": "__ip_finish_output",
+        "to": "ip_finish_output2",
+        "order": 1
+      },
+      {
+        "from": "ip_finish_output2",
+        "to": "neigh_output",
+        "order": 1
+      },
+      {
+        "from": "neigh_output",
+        "to": "neigh_hh_output",
+        "condition": "Hardware header cached",
+        "order": 1
+      },
+      {
+        "from": "neigh_hh_output",
+        "to": "dev_queue_xmit",
+        "order": 1
+      },
+      {
+        "from": "dev_queue_xmit",
+        "to": "__dev_queue_xmit",
+        "order": 1
+      },
+      {
+        "from": "__dev_queue_xmit",
+        "to": "__dev_xmit_skb",
+        "order": 1
+      },
+      {
+        "from": "__dev_xmit_skb",
+        "to": "sch_direct_xmit",
+        "condition": "Direct transmit allowed",
+        "order": 1
+      },
+      {
+        "from": "sch_direct_xmit",
+        "to": "dev_hard_start_xmit",
+        "order": 1
+      },
+      {
+        "from": "dev_hard_start_xmit",
+        "to": "ndo_start_xmit",
+        "order": 1
+      }
+    ],
+    "entryPoint": "tcp_sendmsg",
+    "exitPoints": [
+      "ndo_start_xmit"
+    ]
+  },
+  "simulation": [
+    {
+      "stepNumber": 1,
+      "function": {
+        "id": "tcp_sendmsg",
+        "name": "tcp_sendmsg",
+        "layer": "Transport Layer",
+        "sourceFile": "net/ipv4/tcp.c",
+        "lineNumber": 1434,
+        "description": "Entry point for TCP send operations. Acquires socket lock and delegates to tcp_sendmsg_locked.",
+        "isEntryPoint": true
+      },
+      "skbuffState": {
+        "head": 0,
+        "data": 1048,
+        "tail": 2048,
+        "end": 2048,
+        "layers": []
+      }
+    },
+    {
+      "stepNumber": 2,
+      "function": {
+        "id": "tcp_sendmsg_locked",
+        "name": "tcp_sendmsg_locked",
+        "layer": "Transport Layer",
+        "sourceFile": "net/ipv4/tcp.c",
+        "lineNumber": 1172,
+        "description": "Core TCP send logic. Allocates sk_buff and copies user data into kernel space.",
+        "skbMutation": {
+          "operation": "alloc",
+          "size": 2048,
+          "description": "Allocate sk_buff with headroom for all protocol headers"
+        }
+      },
+      "skbuffState": {
+        "head": 0,
+        "data": 1048,
+        "tail": 2048,
+        "end": 2048,
+        "layers": []
+      }
+    },
+    {
+      "stepNumber": 3,
+      "function": {
+        "id": "tcp_push",
+        "name": "tcp_push",
+        "layer": "Transport Layer",
+        "sourceFile": "net/ipv4/tcp.c",
+        "lineNumber": 689,
+        "description": "Pushes pending data. Sets PSH flag if socket is being closed or buffer is full."
+      },
+      "skbuffState": {
+        "head": 0,
+        "data": 1048,
+        "tail": 2048,
+        "end": 2048,
+        "layers": []
+      }
+    },
+    {
+      "stepNumber": 4,
+      "function": {
+        "id": "__tcp_push_pending_frames",
+        "name": "__tcp_push_pending_frames",
+        "layer": "Transport Layer",
+        "sourceFile": "net/ipv4/tcp_output.c",
+        "lineNumber": 2556,
+        "description": "Checks if there is data to send and initiates transmission."
+      },
+      "skbuffState": {
+        "head": 0,
+        "data": 1048,
+        "tail": 2048,
+        "end": 2048,
+        "layers": []
+      }
+    },
+    {
+      "stepNumber": 5,
+      "function": {
+        "id": "tcp_write_xmit",
+        "name": "tcp_write_xmit",
+        "layer": "Transport Layer",
+        "sourceFile": "net/ipv4/tcp_output.c",
+        "lineNumber": 2387,
+        "description": "Main TCP transmission loop. Handles congestion control, pacing, and TSO segmentation."
+      },
+      "skbuffState": {
+        "head": 0,
+        "data": 1048,
+        "tail": 2048,
+        "end": 2048,
+        "layers": []
+      }
+    },
+    {
+      "stepNumber": 6,
+      "function": {
+        "id": "__tcp_transmit_skb",
+        "name": "__tcp_transmit_skb",
+        "layer": "Transport Layer",
+        "sourceFile": "net/ipv4/tcp_output.c",
+        "lineNumber": 1164,
+        "description": "Builds the TCP header. Calculates checksum and sets sequence numbers.",
+        "skbMutation": {
+          "operation": "push",
+          "headerType": "tcp",
+          "size": 20,
+          "description": "Push tcp header"
+        }
+      },
+      "skbuffState": {
+        "head": 0,
+        "data": 1028,
+        "tail": 2048,
+        "end": 2048,
+        "layers": [
+          {
+            "protocol": "tcp",
+            "offset": 0,
+            "size": 20
+          }
+        ]
+      }
+    },
+    {
+      "stepNumber": 7,
+      "function": {
+        "id": "ip_queue_xmit",
+        "name": "ip_queue_xmit",
+        "layer": "Network Layer",
+        "sourceFile": "net/ipv4/ip_output.c",
+        "lineNumber": 470,
+        "description": "Main IPv4 transmission entry point from transport layer. Handles routing lookup and IP header construction.",
+        "skbMutation": {
+          "operation": "push",
+          "headerType": "ip",
+          "size": 20,
+          "description": "Push ip header"
+        }
+      },
+      "skbuffState": {
+        "head": 0,
+        "data": 1008,
+        "tail": 2048,
+        "end": 2048,
+        "layers": [
+          {
+            "protocol": "ip",
+            "offset": 0,
+            "size": 20
+          },
+          {
+            "protocol": "tcp",
+            "offset": 20,
+            "size": 20
+          }
+        ]
+      }
+    },
+    {
+      "stepNumber": 8,
+      "function": {
+        "id": "ip_local_out",
+        "name": "ip_local_out",
+        "layer": "Network Layer",
+        "sourceFile": "net/ipv4/ip_output.c",
+        "lineNumber": 115,
+        "description": "Wrapper for locally generated packets. Calls __ip_local_out."
+      },
+      "skbuffState": {
+        "head": 0,
+        "data": 1008,
+        "tail": 2048,
+        "end": 2048,
+        "layers": [
+          {
+            "protocol": "ip",
+            "offset": 0,
+            "size": 20
+          },
+          {
+            "protocol": "tcp",
+            "offset": 20,
+            "size": 20
+          }
+        ]
+      }
+    },
+    {
+      "stepNumber": 9,
+      "function": {
+        "id": "__ip_local_out",
+        "name": "__ip_local_out",
+        "layer": "Network Layer",
+        "sourceFile": "net/ipv4/ip_output.c",
+        "lineNumber": 96,
+        "description": "Sets IP packet length and checksum. Invokes LOCAL_OUT netfilter hook."
+      },
+      "skbuffState": {
+        "head": 0,
+        "data": 1008,
+        "tail": 2048,
+        "end": 2048,
+        "layers": [
+          {
+            "protocol": "ip",
+            "offset": 0,
+            "size": 20
+          },
+          {
+            "protocol": "tcp",
+            "offset": 20,
+            "size": 20
+          }
+        ]
+      }
+    },
+    {
+      "stepNumber": 10,
+      "function": {
+        "id": "ip_output",
+        "name": "ip_output",
+        "layer": "Network Layer",
+        "sourceFile": "net/ipv4/ip_output.c",
+        "lineNumber": 413,
+        "description": "Called after LOCAL_OUT hook. Invokes POST_ROUTING netfilter hook."
+      },
+      "skbuffState": {
+        "head": 0,
+        "data": 1008,
+        "tail": 2048,
+        "end": 2048,
+        "layers": [
+          {
+            "protocol": "ip",
+            "offset": 0,
+            "size": 20
+          },
+          {
+            "protocol": "tcp",
+            "offset": 20,
+            "size": 20
+          }
+        ]
+      }
+    },
+    {
+      "stepNumber": 11,
+      "function": {
+        "id": "ip_finish_output",
+        "name": "ip_finish_output",
+        "layer": "Network Layer",
+        "sourceFile": "net/ipv4/ip_output.c",
+        "lineNumber": 311,
+        "description": "BPF cgroup egress hook point. Handles GSO segmentation if needed."
+      },
+      "skbuffState": {
+        "head": 0,
+        "data": 1008,
+        "tail": 2048,
+        "end": 2048,
+        "layers": [
+          {
+            "protocol": "ip",
+            "offset": 0,
+            "size": 20
+          },
+          {
+            "protocol": "tcp",
+            "offset": 20,
+            "size": 20
+          }
+        ]
+      }
+    },
+    {
+      "stepNumber": 12,
+      "function": {
+        "id": "__ip_finish_output",
+        "name": "__ip_finish_output",
+        "layer": "Network Layer",
+        "sourceFile": "net/ipv4/ip_output.c",
+        "lineNumber": 287,
+        "description": "Checks MTU and fragments packet if necessary."
+      },
+      "skbuffState": {
+        "head": 0,
+        "data": 1008,
+        "tail": 2048,
+        "end": 2048,
+        "layers": [
+          {
+            "protocol": "ip",
+            "offset": 0,
+            "size": 20
+          },
+          {
+            "protocol": "tcp",
+            "offset": 20,
+            "size": 20
+          }
+        ]
+      }
+    },
+    {
+      "stepNumber": 13,
+      "function": {
+        "id": "ip_finish_output2",
+        "name": "ip_finish_output2",
+        "layer": "Network Layer",
+        "sourceFile": "net/ipv4/ip_output.c",
+        "lineNumber": 187,
+        "description": "Resolves next-hop neighbor (ARP lookup) and prepares for L2 transmission."
+      },
+      "skbuffState": {
+        "head": 0,
+        "data": 1008,
+        "tail": 2048,
+        "end": 2048,
+        "layers": [
+          {
+            "protocol": "ip",
+            "offset": 0,
+            "size": 20
+          },
+          {
+            "protocol": "tcp",
+            "offset": 20,
+            "size": 20
+          }
+        ]
+      }
+    },
+    {
+      "stepNumber": 14,
+      "function": {
+        "id": "neigh_output",
+        "name": "neigh_output",
+        "layer": "Network Layer",
+        "sourceFile": "include/net/neighbour.h",
+        "lineNumber": 510,
+        "description": "Neighbour subsystem output. Uses cached hardware header if available."
+      },
+      "skbuffState": {
+        "head": 0,
+        "data": 1008,
+        "tail": 2048,
+        "end": 2048,
+        "layers": [
+          {
+            "protocol": "ip",
+            "offset": 0,
+            "size": 20
+          },
+          {
+            "protocol": "tcp",
+            "offset": 20,
+            "size": 20
+          }
+        ]
+      }
+    },
+    {
+      "stepNumber": 15,
+      "function": {
+        "id": "neigh_hh_output",
+        "name": "neigh_hh_output",
+        "layer": "Data Link Layer",
+        "sourceFile": "include/net/neighbour.h",
+        "lineNumber": 490,
+        "description": "Fast path using cached hardware header. Pushes Ethernet header.",
+        "skbMutation": {
+          "operation": "push",
+          "headerType": "ethernet",
+          "size": 14,
+          "description": "Push ethernet header"
+        }
+      },
+      "skbuffState": {
+        "head": 0,
+        "data": 994,
+        "tail": 2048,
+        "end": 2048,
+        "layers": [
+          {
+            "protocol": "ethernet",
+            "offset": 0,
+            "size": 14
+          },
+          {
+            "protocol": "ip",
+            "offset": 14,
+            "size": 20
+          },
+          {
+            "protocol": "tcp",
+            "offset": 34,
+            "size": 20
+          }
+        ]
+      }
+    },
+    {
+      "stepNumber": 16,
+      "function": {
+        "id": "dev_queue_xmit",
+        "name": "dev_queue_xmit",
+        "layer": "Data Link Layer",
+        "sourceFile": "net/core/dev.c",
+        "lineNumber": 4044,
+        "description": "Main device transmission entry point. Handles per-CPU processing."
+      },
+      "skbuffState": {
+        "head": 0,
+        "data": 994,
+        "tail": 2048,
+        "end": 2048,
+        "layers": [
+          {
+            "protocol": "ethernet",
+            "offset": 0,
+            "size": 14
+          },
+          {
+            "protocol": "ip",
+            "offset": 14,
+            "size": 20
+          },
+          {
+            "protocol": "tcp",
+            "offset": 34,
+            "size": 20
+          }
+        ]
+      }
+    },
+    {
+      "stepNumber": 17,
+      "function": {
+        "id": "__dev_queue_xmit",
+        "name": "__dev_queue_xmit",
+        "layer": "Data Link Layer",
+        "sourceFile": "net/core/dev.c",
+        "lineNumber": 3954,
+        "description": "Core queuing logic. Selects TX queue and enters qdisc."
+      },
+      "skbuffState": {
+        "head": 0,
+        "data": 994,
+        "tail": 2048,
+        "end": 2048,
+        "layers": [
+          {
+            "protocol": "ethernet",
+            "offset": 0,
+            "size": 14
+          },
+          {
+            "protocol": "ip",
+            "offset": 14,
+            "size": 20
+          },
+          {
+            "protocol": "tcp",
+            "offset": 34,
+            "size": 20
+          }
+        ]
+      }
+    },
+    {
+      "stepNumber": 18,
+      "function": {
+        "id": "__dev_xmit_skb",
+        "name": "__dev_xmit_skb",
+        "layer": "Data Link Layer",
+        "sourceFile": "net/core/dev.c",
+        "lineNumber": 3683,
+        "description": "Submits packet to qdisc. May queue or directly transmit based on qdisc state."
+      },
+      "skbuffState": {
+        "head": 0,
+        "data": 994,
+        "tail": 2048,
+        "end": 2048,
+        "layers": [
+          {
+            "protocol": "ethernet",
+            "offset": 0,
+            "size": 14
+          },
+          {
+            "protocol": "ip",
+            "offset": 14,
+            "size": 20
+          },
+          {
+            "protocol": "tcp",
+            "offset": 34,
+            "size": 20
+          }
+        ]
+      }
+    },
+    {
+      "stepNumber": 19,
+      "function": {
+        "id": "sch_direct_xmit",
+        "name": "sch_direct_xmit",
+        "layer": "Data Link Layer",
+        "sourceFile": "net/sched/sch_generic.c",
+        "lineNumber": 310,
+        "description": "Bypasses qdisc queue for direct transmission when possible."
+      },
+      "skbuffState": {
+        "head": 0,
+        "data": 994,
+        "tail": 2048,
+        "end": 2048,
+        "layers": [
+          {
+            "protocol": "ethernet",
+            "offset": 0,
+            "size": 14
+          },
+          {
+            "protocol": "ip",
+            "offset": 14,
+            "size": 20
+          },
+          {
+            "protocol": "tcp",
+            "offset": 34,
+            "size": 20
+          }
+        ]
+      }
+    },
+    {
+      "stepNumber": 20,
+      "function": {
+        "id": "dev_hard_start_xmit",
+        "name": "dev_hard_start_xmit",
+        "layer": "Device Driver",
+        "sourceFile": "net/core/dev.c",
+        "lineNumber": 3506,
+        "description": "Final generic layer before driver. Handles XDP and calls driver's ndo_start_xmit."
+      },
+      "skbuffState": {
+        "head": 0,
+        "data": 994,
+        "tail": 2048,
+        "end": 2048,
+        "layers": [
+          {
+            "protocol": "ethernet",
+            "offset": 0,
+            "size": 14
+          },
+          {
+            "protocol": "ip",
+            "offset": 14,
+            "size": 20
+          },
+          {
+            "protocol": "tcp",
+            "offset": 34,
+            "size": 20
+          }
+        ]
+      }
+    },
+    {
+      "stepNumber": 21,
+      "function": {
+        "id": "ndo_start_xmit",
+        "name": "ndo_start_xmit",
+        "layer": "Device Driver",
+        "sourceFile": "include/linux/netdevice.h",
+        "lineNumber": 1298,
+        "description": "Driver-specific transmit function. Pointer to actual driver implementation (e.g., e1000, virtio-net).",
+        "isExitPoint": true
+      },
+      "skbuffState": {
+        "head": 0,
+        "data": 994,
+        "tail": 2048,
+        "end": 2048,
+        "layers": [
+          {
+            "protocol": "ethernet",
+            "offset": 0,
+            "size": 14
+          },
+          {
+            "protocol": "ip",
+            "offset": 14,
+            "size": 20
+          },
+          {
+            "protocol": "tcp",
+            "offset": 34,
+            "size": 20
+          }
+        ]
+      }
+    }
+  ],
+  "metadata": {
+    "layers": [
+      {
+        "id": "user",
+        "name": "User Space",
+        "cssClass": "layer-user",
+        "order": 0
+      },
+      {
+        "id": "socket",
+        "name": "Socket Layer",
+        "cssClass": "layer-socket",
+        "order": 1
+      },
+      {
+        "id": "transport",
+        "name": "Transport Layer",
+        "cssClass": "layer-transport",
+        "order": 2
+      },
+      {
+        "id": "network",
+        "name": "Network Layer",
+        "cssClass": "layer-network",
+        "order": 3
+      },
+      {
+        "id": "datalink",
+        "name": "Data Link Layer",
+        "cssClass": "layer-datalink",
+        "order": 4
+      },
+      {
+        "id": "driver",
+        "name": "Device Driver",
+        "cssClass": "layer-driver",
+        "order": 5
+      }
+    ],
+    "headerSizes": {
+      "ethernet": 14,
+      "icmp": 8,
+      "ip": 20,
+      "ipv6": 40,
+      "tcp": 20,
+      "udp": 8
+    },
+    "bufferSize": 2048,
+    "payloadSize": 1000
+  }
+}
