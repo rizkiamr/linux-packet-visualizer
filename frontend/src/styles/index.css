@@ -1048,10 +1048,20 @@ body {
   border-color: #2e7d32;
   color: #2e7d32;
 }
+
 /* ===================================
    Mobile Layout
    =================================== */
 @media (max-width: 768px) {
+
+  /* Allow full page scrolling */
+  html,
+  body,
+  #root {
+    height: auto !important;
+    overflow: auto !important;
+  }
+
   .app {
     grid-template-columns: 1fr;
     grid-template-rows: 60px 1fr auto auto;
@@ -1060,8 +1070,15 @@ body {
       "canvas"
       "sidebar"
       "controls";
-    height: auto;
+    height: auto !important;
     min-height: 100vh;
+    overflow: visible !important;
+  }
+
+  /* Canvas expands to fit content */
+  .canvas-container {
+    height: auto !important;
+    overflow: visible !important;
   }
 
   .sidebar {
@@ -1070,7 +1087,7 @@ body {
     max-height: none;
     overflow: visible;
   }
-  
+
   .controls {
     position: sticky;
     bottom: 0;
