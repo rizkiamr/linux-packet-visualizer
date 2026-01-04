@@ -1119,60 +1119,67 @@ body {
     padding: var(--spacing-md) var(--spacing-lg);
   }
 
-  /* Mobile header - improved spacing and centering */
+  /* Mobile header - two-row layout matching sketch design */
   .app-header {
     flex-wrap: wrap;
-    gap: var(--spacing-sm) var(--spacing-sm);
+    gap: var(--spacing-md);
     padding: var(--spacing-md) var(--spacing-lg);
     min-height: auto;
     height: auto;
-    justify-content: center;
   }
 
-  /* Row 1: Title centered with kernel version */
+  /* Row 1: Title centered, takes full width */
   .app-header h1 {
     font-size: 1rem;
     flex: 1 1 100%;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: var(--spacing-sm);
     text-align: center;
+    order: 1;
   }
 
+  /* Hide kernel version from title row on mobile - it goes to row 2 */
+  .app-header h1 .kernel-version {
+    display: none;
+  }
+
+  /* Row 2: Controls spread out - left, center, right */
   .app-header .kernel-version {
     margin-left: 0;
     font-size: 0.7rem;
     flex-shrink: 0;
+    order: 2;
   }
 
-  /* Row 2: Controls centered */
   .path-selector {
-    flex: 0 1 auto;
+    flex: 1 1 auto;
     min-width: 0;
     margin-left: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: var(--spacing-sm);
+    gap: var(--spacing-xs);
+    order: 3;
   }
 
   .path-select {
     flex: 0 1 auto;
-    max-width: 160px;
+    max-width: 180px;
     font-size: 0.75rem;
     padding: var(--spacing-xs) var(--spacing-sm);
   }
 
+  /* Hide direction badge on mobile to save space */
   .direction-badge {
-    font-size: 0.7rem;
-    padding: 3px 8px;
+    display: none;
   }
 
   .theme-toggle {
     padding: var(--spacing-xs);
-    margin-left: var(--spacing-xs);
+    margin-left: 0;
     flex-shrink: 0;
+    order: 4;
   }
 
   /* Mobile node styling - hide file names */
