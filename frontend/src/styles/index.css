@@ -213,6 +213,17 @@ body {
   color: var(--layer-transport-accent);
 }
 
+.header-controls {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  gap: var(--spacing-md);
+}
+
+.path-selector {
+  margin-left: auto;
+}
+
 .canvas-container {
   grid-area: canvas;
   background: var(--bg-primary);
@@ -1120,64 +1131,63 @@ body {
   }
 
   /* Mobile header - two-row layout matching sketch design */
+  /* Mobile header - two-row layout using new structural container */
   .app-header {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
+    flex-direction: column;
     gap: var(--spacing-sm);
     padding: var(--spacing-md) var(--spacing-lg);
     min-height: auto;
     height: auto;
   }
 
-  /* Row 1: Title centered, takes full width */
-  .app-header h1 {
-    flex: 1 1 100%;
-    /* Full width forces row break */
-    font-size: 1rem;
+  .header-controls {
     display: flex;
+    width: 100%;
+    justify-content: space-between;
     align-items: center;
+    gap: var(--spacing-xs);
+  }
+
+  /* Row 1: Title centered */
+  .app-header h1 {
+    width: 100%;
+    font-size: 1rem;
     justify-content: center;
     text-align: center;
     gap: 0.25rem;
-    /* Fix "TheLinux" spacing */
     margin: 0;
   }
 
-  /* Row 2: Controls spread out - kernel left, selector center, toggle right */
+  /* Row 2: Controls */
   .app-header .kernel-version {
-    flex: 0 0 auto;
+    margin-left: 0;
     font-size: 0.65rem;
-    margin: 0;
+    flex: 0 0 auto;
   }
 
   .path-selector {
-    flex: 1 1 auto;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: var(--spacing-xs);
-    margin: 0;
+    margin-left: 0;
+    /* Reset desktop auto margin */
+    flex: 0 1 auto;
     min-width: 0;
+    gap: var(--spacing-xs);
   }
 
   .path-select {
     max-width: 100px;
-    /* Reduced further to fit in 390px viewport */
-    font-size: 0.65rem;
+    font-size: 0.7rem;
     padding: 4px 8px;
   }
 
-  /* Hide direction badge on mobile to save space */
-  .direction-badge {
-    display: none;
-  }
-
   .theme-toggle {
+    margin-left: 0;
     flex: 0 0 auto;
     padding: var(--spacing-xs);
-    margin: 0;
+  }
+
+  /* Hide direction badge on mobile */
+  .direction-badge {
+    display: none;
   }
 
   /* Mobile node styling - hide file names */

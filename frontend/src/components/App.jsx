@@ -70,15 +70,17 @@ export function App() {
             {/* Header */}
             <header className="app-header">
                 <h1>The <span>Linux Packet Path</span></h1>
-                {kernelVersion && (
-                    <span className="kernel-version">Linux {kernelVersion}</span>
-                )}
-                <PathSelector
-                    paths={paths}
-                    selectedPathId={selectedPathId}
-                    onSelect={handlePathChange}
-                />
-                <ThemeToggle theme={theme} onToggle={toggleTheme} />
+                <div className="header-controls">
+                    {kernelVersion && (
+                        <span className="kernel-version">Linux {kernelVersion}</span>
+                    )}
+                    <PathSelector
+                        paths={paths}
+                        selectedPathId={selectedPathId}
+                        onSelect={handlePathChange}
+                    />
+                    <ThemeToggle theme={theme} onToggle={toggleTheme} />
+                </div>
             </header>
 
             {/* Main canvas */}
