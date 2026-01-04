@@ -604,6 +604,21 @@ body {
   margin-bottom: var(--spacing-md);
 }
 
+.function-info .fn-file-link {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--layer-transport-accent);
+  text-decoration: none;
+  margin-bottom: var(--spacing-md);
+  transition: all var(--transition-fast);
+}
+
+.function-info .fn-file-link:hover {
+  text-decoration: underline;
+  opacity: 0.85;
+}
+
 .function-info .fn-description {
   font-size: 0.875rem;
   color: var(--text-secondary);

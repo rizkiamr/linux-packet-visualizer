@@ -1,7 +1,7 @@
 /**
  * FunctionInfo - Sidebar panel showing details of the current function.
  */
-export function FunctionInfo({ fn }) {
+export function FunctionInfo({ fn, kernelVersion }) {
     if (!fn) {
         return (
             <div className="sidebar-section function-info">
@@ -31,11 +31,35 @@ export function FunctionInfo({ fn }) {
         'SOCKET': '#da70d6',
     };
 
+    // Generate kernel source URL using git.kernel.org
+    const getKernelSourceUrl = () => {
+        if (!fn.sourceFile) return null;
+        const version = kernelVersion || '5.10.8';
+        // Use exact version tag (e.g., "v5.10.8") to ensure line numbers match
+        const tag = `v${version}`;
+        const line = fn.lineNumber ? `#n${fn.lineNumber}` : '';
+        return `https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/tree/${fn.sourceFile}?h=${tag}${line}`;
+    };
+
+    const sourceUrl = getKernelSourceUrl();
+
     return (
         <div className="sidebar-section function-info">
             <h2>Current Function</h2>
             <div className="fn-name">{fn.name}</div>
-            <div className="fn-file">{fn.sourceFile}:{fn.lineNumber || '?'}</div>
+            {sourceUrl ? (
+                <a
+                    href={sourceUrl}
+                    className="fn-file fn-file-link"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    title="View source in Linux kernel"
+                >
+                    {fn.sourceFile}:{fn.lineNumber || '?'} ↗
+                </a>
+            ) : (
+                <div className="fn-file">{fn.sourceFile}:{fn.lineNumber || '?'}</div>
+            )}
             <div className="fn-description">{fn.description}</div>
 
             {fn.skbMutation && (
