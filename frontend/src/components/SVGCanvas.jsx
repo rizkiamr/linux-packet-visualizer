@@ -71,8 +71,12 @@ export function SVGCanvas({
         const positions = {};
 
         const sidebarWidth = isMobile ? 0 : 320;
-        const canvasWidth = windowSize.width - sidebarWidth - 40;
-        const maxRowWidth = Math.max(isMobile ? 300 : 800, canvasWidth);
+        const padding = isMobile ? 20 : 40;
+        const canvasWidth = windowSize.width - sidebarWidth - padding;
+        // On mobile, constrain to actual viewport; on desktop allow expansion
+        const maxRowWidth = isMobile
+            ? Math.min(windowSize.width - padding, canvasWidth)
+            : Math.max(800, canvasWidth);
 
         const layerOrder = isIngress
             ? ['Device Driver', 'Data Link Layer', 'Network Layer', 'Transport Layer', 'Socket Layer']
@@ -92,7 +96,7 @@ export function SVGCanvas({
             const funcs = functionsByLayer[layerName] || [];
             if (funcs.length === 0) return;
 
-            let currentX = 60;
+            let currentX = isMobile ? 15 : 60;
             const layerStartY = currentY;
 
             // Track row max height to adjust next row's Y
@@ -108,7 +112,7 @@ export function SVGCanvas({
                     // Move to next row
                     // Add previous row's specific height + gap
                     rowStartY += rowMaxHeight + verticalGap;
-                    currentX = 60;
+                    currentX = isMobile ? 15 : 60;
                     rowMaxHeight = baseNodeHeight; // Reset for new row
                 }
 
@@ -205,13 +209,20 @@ export function SVGCanvas({
         );
     }
 
+    // Calculate SVG viewport width
+    const sidebarWidth = isMobile ? 0 : 320;
+    const svgPadding = isMobile ? 20 : 40;
+    const svgWidth = isMobile
+        ? windowSize.width - svgPadding
+        : Math.max(windowSize.width - sidebarWidth - svgPadding, 800);
+
     return (
         <svg
             className={`svg-canvas ${isIngress ? 'ingress' : 'egress'}`}
-            viewBox={`0 0 ${Math.max(windowSize.width - 320, 800)} ${layout.totalHeight}`}
+            viewBox={`0 0 ${svgWidth} ${layout.totalHeight}`}
             width="100%"
             height={layout.totalHeight}
-            style={{ display: 'block', minWidth: '100%' }}
+            style={{ display: 'block', maxWidth: '100%' }}
         >
             <EdgeMarkers />
 
@@ -223,7 +234,7 @@ export function SVGCanvas({
                         className={`layer-bg ${layer.className}`}
                         x={0}
                         y={layer.y}
-                        width="100%"
+                        width={svgWidth}
                         height={layer.height}
                         opacity={0.5}
                     />
