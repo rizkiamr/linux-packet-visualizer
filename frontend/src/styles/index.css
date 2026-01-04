@@ -1146,6 +1146,8 @@ body {
     justify-content: space-between;
     align-items: center;
     gap: var(--spacing-xs);
+    overflow: hidden;
+    /* Ensure it never expands parent */
   }
 
   /* Row 1: Title centered */
@@ -1154,8 +1156,12 @@ body {
     font-size: 1rem;
     justify-content: center;
     text-align: center;
-    gap: 0.25rem;
     margin: 0;
+  }
+
+  /* Fix spacing using margin instead of gap for better support */
+  .app-header h1 span {
+    margin-left: 0.35rem;
   }
 
   /* Row 2: Controls */
@@ -1168,15 +1174,22 @@ body {
   .path-selector {
     margin-left: 0;
     /* Reset desktop auto margin */
-    flex: 0 1 auto;
+    flex: 1 1 auto;
+    /* Allow shrinking/growing */
     min-width: 0;
+    /* Crucial for flex child shrinking */
     gap: var(--spacing-xs);
+    overflow: hidden;
+    /* Clip content if needed */
   }
 
   .path-select {
-    max-width: 100px;
+    width: 100%;
+    max-width: 140px;
+    /* Give it a bit more room but compress if needed */
     font-size: 0.7rem;
     padding: 4px 8px;
+    text-overflow: ellipsis;
   }
 
   .theme-toggle {
