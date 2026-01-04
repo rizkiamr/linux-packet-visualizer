@@ -1090,7 +1090,7 @@ body {
 
   .app {
     grid-template-columns: 1fr;
-    grid-template-rows: 60px 1fr auto auto;
+    grid-template-rows: min-content 1fr auto auto;
     grid-template-areas:
       "header"
       "canvas"
@@ -1154,8 +1154,8 @@ body {
   .app-header h1 {
     width: 100%;
     font-size: 1rem;
-    justify-content: center;
-    text-align: center;
+    justify-content: flex-start;
+    text-align: left;
     margin: 0;
   }
 
