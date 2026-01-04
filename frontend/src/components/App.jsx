@@ -94,7 +94,7 @@ export function App() {
 
             {/* Sidebar */}
             <aside className="sidebar">
-                <FunctionInfo fn={sim.currentStep?.function} />
+                <FunctionInfo fn={sim.currentStep?.function} kernelVersion={kernelVersion} />
                 <ConntrackInfo conntrackState={sim.currentStep?.conntrackState} />
                 <SKBuffDiagram
                     skbState={sim.currentStep?.skbuffState}
