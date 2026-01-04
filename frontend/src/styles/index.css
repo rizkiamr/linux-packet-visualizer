@@ -1274,11 +1274,15 @@ body {
   .function-info .fn-file,
   .function-info .fn-file-link {
     word-wrap: break-word;
-    overflow-wrap: break-word;
+    overflow-wrap: anywhere;
+    word-break: break-all;
     hyphens: auto;
-    font-size: 0.7rem;
+    font-size: 0.75rem;
     display: block;
     max-width: 100%;
+    padding: 8px 0;
+    /* Increase touch target */
+    line-height: 1.4;
   }
 
   .function-info .fn-description {
