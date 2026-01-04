@@ -1,7 +1,7 @@
 {
   "version": "1.1.0",
   "kernelVersion": "5.10.8",
-  "generatedAt": "2026-01-03T18:17:38Z",
+  "generatedAt": "2026-01-04T11:37:29Z",
   "paths": [
     {
       "path": {
@@ -16,7 +16,7 @@
             "name": "tcp_sendmsg",
             "layer": "Transport Layer",
             "sourceFile": "net/ipv4/tcp.c",
-            "lineNumber": 1434,
+            "lineNumber": 1439,
             "description": "Entry point for TCP send operations. Acquires socket lock and delegates to tcp_sendmsg_locked.",
             "isEntryPoint": true
           },
@@ -25,7 +25,7 @@
             "name": "tcp_sendmsg_locked",
             "layer": "Transport Layer",
             "sourceFile": "net/ipv4/tcp.c",
-            "lineNumber": 1172,
+            "lineNumber": 1189,
             "description": "Core TCP send logic. Allocates sk_buff and copies user data into kernel space.",
             "skbMutation": {
               "operation": "alloc",
@@ -38,7 +38,7 @@
             "name": "tcp_push",
             "layer": "Transport Layer",
             "sourceFile": "net/ipv4/tcp.c",
-            "lineNumber": 689,
+            "lineNumber": 706,
             "description": "Pushes pending data. Sets PSH flag if socket is being closed or buffer is full."
           },
           {
@@ -46,7 +46,7 @@
             "name": "__tcp_push_pending_frames",
             "layer": "Transport Layer",
             "sourceFile": "net/ipv4/tcp_output.c",
-            "lineNumber": 2556,
+            "lineNumber": 2855,
             "description": "Checks if there is data to send and initiates transmission."
           },
           {
@@ -54,7 +54,7 @@
             "name": "tcp_write_xmit",
             "layer": "Transport Layer",
             "sourceFile": "net/ipv4/tcp_output.c",
-            "lineNumber": 2387,
+            "lineNumber": 2594,
             "description": "Main TCP transmission loop. Handles congestion control, pacing, and TSO segmentation."
           },
           {
@@ -62,7 +62,7 @@
             "name": "__tcp_transmit_skb",
             "layer": "Transport Layer",
             "sourceFile": "net/ipv4/tcp_output.c",
-            "lineNumber": 1164,
+            "lineNumber": 1239,
             "description": "Builds the TCP header. Calculates checksum and sets sequence numbers.",
             "skbMutation": {
               "operation": "push",
@@ -76,7 +76,7 @@
             "name": "ip_queue_xmit",
             "layer": "Network Layer",
             "sourceFile": "net/ipv4/ip_output.c",
-            "lineNumber": 470,
+            "lineNumber": 544,
             "description": "Main IPv4 transmission entry point from transport layer. Handles routing lookup and IP header construction.",
             "skbMutation": {
               "operation": "push",
@@ -90,7 +90,7 @@
             "name": "ip_local_out",
             "layer": "Network Layer",
             "sourceFile": "net/ipv4/ip_output.c",
-            "lineNumber": 115,
+            "lineNumber": 120,
             "description": "Wrapper for locally generated packets. Calls __ip_local_out."
           },
           {
@@ -98,7 +98,7 @@
             "name": "__ip_local_out",
             "layer": "Network Layer",
             "sourceFile": "net/ipv4/ip_output.c",
-            "lineNumber": 96,
+            "lineNumber": 99,
             "description": "Sets IP packet length and checksum. Invokes LOCAL_OUT netfilter hook.",
             "netfilterHook": {
               "hook": "OUTPUT",
@@ -117,7 +117,7 @@
             "name": "ip_output",
             "layer": "Network Layer",
             "sourceFile": "net/ipv4/ip_output.c",
-            "lineNumber": 413,
+            "lineNumber": 423,
             "description": "Called after LOCAL_OUT hook. Invokes POST_ROUTING netfilter hook.",
             "netfilterHook": {
               "hook": "POSTROUTING",
@@ -151,7 +151,7 @@
             "name": "__ip_finish_output",
             "layer": "Network Layer",
             "sourceFile": "net/ipv4/ip_output.c",
-            "lineNumber": 287,
+            "lineNumber": 290,
             "description": "Checks MTU and fragments packet if necessary."
           },
           {
@@ -167,7 +167,7 @@
             "name": "neigh_output",
             "layer": "Network Layer",
             "sourceFile": "include/net/neighbour.h",
-            "lineNumber": 510,
+            "lineNumber": 502,
             "description": "Neighbour subsystem output. Uses cached hardware header if available."
           },
           {
@@ -175,7 +175,7 @@
             "name": "neigh_hh_output",
             "layer": "Data Link Layer",
             "sourceFile": "include/net/neighbour.h",
-            "lineNumber": 490,
+            "lineNumber": 462,
             "description": "Fast path using cached hardware header. Pushes Ethernet header.",
             "skbMutation": {
               "operation": "push",
@@ -189,7 +189,7 @@
             "name": "dev_queue_xmit",
             "layer": "Data Link Layer",
             "sourceFile": "net/core/dev.c",
-            "lineNumber": 4044,
+            "lineNumber": 4171,
             "description": "Main device transmission entry point. Handles per-CPU processing."
           },
           {
@@ -197,7 +197,7 @@
             "name": "__dev_queue_xmit",
             "layer": "Data Link Layer",
             "sourceFile": "net/core/dev.c",
-            "lineNumber": 3954,
+            "lineNumber": 4064,
             "description": "Core queuing logic. TC egress BPF programs run here before qdisc.",
             "bpfHook": {
               "type": "TC_EGRESS",
@@ -216,7 +216,7 @@
             "name": "__dev_xmit_skb",
             "layer": "Data Link Layer",
             "sourceFile": "net/core/dev.c",
-            "lineNumber": 3683,
+            "lineNumber": 3742,
             "description": "Submits packet to qdisc. May queue or directly transmit based on qdisc state."
           },
           {
@@ -224,7 +224,7 @@
             "name": "sch_direct_xmit",
             "layer": "Data Link Layer",
             "sourceFile": "net/sched/sch_generic.c",
-            "lineNumber": 310,
+            "lineNumber": 285,
             "description": "Bypasses qdisc queue for direct transmission when possible."
           },
           {
@@ -232,7 +232,7 @@
             "name": "dev_hard_start_xmit",
             "layer": "Device Driver",
             "sourceFile": "net/core/dev.c",
-            "lineNumber": 3506,
+            "lineNumber": 3570,
             "description": "Final generic layer before driver. Handles XDP and calls driver's ndo_start_xmit."
           },
           {
@@ -240,7 +240,7 @@
             "name": "ndo_start_xmit",
             "layer": "Device Driver",
             "sourceFile": "include/linux/netdevice.h",
-            "lineNumber": 1298,
+            "lineNumber": 1288,
             "description": "Driver-specific transmit function. Pointer to actual driver implementation (e.g., e1000, virtio-net).",
             "isExitPoint": true
           }
@@ -362,7 +362,7 @@
             "name": "tcp_sendmsg",
             "layer": "Transport Layer",
             "sourceFile": "net/ipv4/tcp.c",
-            "lineNumber": 1434,
+            "lineNumber": 1439,
             "description": "Entry point for TCP send operations. Acquires socket lock and delegates to tcp_sendmsg_locked.",
             "isEntryPoint": true
           },
@@ -385,7 +385,7 @@
             "name": "tcp_sendmsg_locked",
             "layer": "Transport Layer",
             "sourceFile": "net/ipv4/tcp.c",
-            "lineNumber": 1172,
+            "lineNumber": 1189,
             "description": "Core TCP send logic. Allocates sk_buff and copies user data into kernel space.",
             "skbMutation": {
               "operation": "alloc",
@@ -412,7 +412,7 @@
             "name": "tcp_push",
             "layer": "Transport Layer",
             "sourceFile": "net/ipv4/tcp.c",
-            "lineNumber": 689,
+            "lineNumber": 706,
             "description": "Pushes pending data. Sets PSH flag if socket is being closed or buffer is full."
           },
           "skbuffState": {
@@ -434,7 +434,7 @@
             "name": "__tcp_push_pending_frames",
             "layer": "Transport Layer",
             "sourceFile": "net/ipv4/tcp_output.c",
-            "lineNumber": 2556,
+            "lineNumber": 2855,
             "description": "Checks if there is data to send and initiates transmission."
           },
           "skbuffState": {
@@ -456,7 +456,7 @@
             "name": "tcp_write_xmit",
             "layer": "Transport Layer",
             "sourceFile": "net/ipv4/tcp_output.c",
-            "lineNumber": 2387,
+            "lineNumber": 2594,
             "description": "Main TCP transmission loop. Handles congestion control, pacing, and TSO segmentation."
           },
           "skbuffState": {
@@ -478,7 +478,7 @@
             "name": "__tcp_transmit_skb",
             "layer": "Transport Layer",
             "sourceFile": "net/ipv4/tcp_output.c",
-            "lineNumber": 1164,
+            "lineNumber": 1239,
             "description": "Builds the TCP header. Calculates checksum and sets sequence numbers.",
             "skbMutation": {
               "operation": "push",
@@ -512,7 +512,7 @@
             "name": "ip_queue_xmit",
             "layer": "Network Layer",
             "sourceFile": "net/ipv4/ip_output.c",
-            "lineNumber": 470,
+            "lineNumber": 544,
             "description": "Main IPv4 transmission entry point from transport layer. Handles routing lookup and IP header construction.",
             "skbMutation": {
               "operation": "push",
@@ -551,7 +551,7 @@
             "name": "ip_local_out",
             "layer": "Network Layer",
             "sourceFile": "net/ipv4/ip_output.c",
-            "lineNumber": 115,
+            "lineNumber": 120,
             "description": "Wrapper for locally generated packets. Calls __ip_local_out."
           },
           "skbuffState": {
@@ -584,7 +584,7 @@
             "name": "__ip_local_out",
             "layer": "Network Layer",
             "sourceFile": "net/ipv4/ip_output.c",
-            "lineNumber": 96,
+            "lineNumber": 99,
             "description": "Sets IP packet length and checksum. Invokes LOCAL_OUT netfilter hook.",
             "netfilterHook": {
               "hook": "OUTPUT",
@@ -628,7 +628,7 @@
             "name": "ip_output",
             "layer": "Network Layer",
             "sourceFile": "net/ipv4/ip_output.c",
-            "lineNumber": 413,
+            "lineNumber": 423,
             "description": "Called after LOCAL_OUT hook. Invokes POST_ROUTING netfilter hook.",
             "netfilterHook": {
               "hook": "POSTROUTING",
@@ -712,7 +712,7 @@
             "name": "__ip_finish_output",
             "layer": "Network Layer",
             "sourceFile": "net/ipv4/ip_output.c",
-            "lineNumber": 287,
+            "lineNumber": 290,
             "description": "Checks MTU and fragments packet if necessary."
           },
           "skbuffState": {
@@ -778,7 +778,7 @@
             "name": "neigh_output",
             "layer": "Network Layer",
             "sourceFile": "include/net/neighbour.h",
-            "lineNumber": 510,
+            "lineNumber": 502,
             "description": "Neighbour subsystem output. Uses cached hardware header if available."
           },
           "skbuffState": {
@@ -811,7 +811,7 @@
             "name": "neigh_hh_output",
             "layer": "Data Link Layer",
             "sourceFile": "include/net/neighbour.h",
-            "lineNumber": 490,
+            "lineNumber": 462,
             "description": "Fast path using cached hardware header. Pushes Ethernet header.",
             "skbMutation": {
               "operation": "push",
@@ -855,7 +855,7 @@
             "name": "dev_queue_xmit",
             "layer": "Data Link Layer",
             "sourceFile": "net/core/dev.c",
-            "lineNumber": 4044,
+            "lineNumber": 4171,
             "description": "Main device transmission entry point. Handles per-CPU processing."
           },
           "skbuffState": {
@@ -893,7 +893,7 @@
             "name": "__dev_queue_xmit",
             "layer": "Data Link Layer",
             "sourceFile": "net/core/dev.c",
-            "lineNumber": 3954,
+            "lineNumber": 4064,
             "description": "Core queuing logic. TC egress BPF programs run here before qdisc.",
             "bpfHook": {
               "type": "TC_EGRESS",
@@ -942,7 +942,7 @@
             "name": "__dev_xmit_skb",
             "layer": "Data Link Layer",
             "sourceFile": "net/core/dev.c",
-            "lineNumber": 3683,
+            "lineNumber": 3742,
             "description": "Submits packet to qdisc. May queue or directly transmit based on qdisc state."
           },
           "skbuffState": {
@@ -980,7 +980,7 @@
             "name": "sch_direct_xmit",
             "layer": "Data Link Layer",
             "sourceFile": "net/sched/sch_generic.c",
-            "lineNumber": 310,
+            "lineNumber": 285,
             "description": "Bypasses qdisc queue for direct transmission when possible."
           },
           "skbuffState": {
@@ -1018,7 +1018,7 @@
             "name": "dev_hard_start_xmit",
             "layer": "Device Driver",
             "sourceFile": "net/core/dev.c",
-            "lineNumber": 3506,
+            "lineNumber": 3570,
             "description": "Final generic layer before driver. Handles XDP and calls driver's ndo_start_xmit."
           },
           "skbuffState": {
@@ -1056,7 +1056,7 @@
             "name": "ndo_start_xmit",
             "layer": "Device Driver",
             "sourceFile": "include/linux/netdevice.h",
-            "lineNumber": 1298,
+            "lineNumber": 1288,
             "description": "Driver-specific transmit function. Pointer to actual driver implementation (e.g., e1000, virtio-net).",
             "isExitPoint": true
           },
@@ -1103,7 +1103,7 @@
             "name": "napi_poll",
             "layer": "Device Driver",
             "sourceFile": "net/core/dev.c",
-            "lineNumber": 6513,
+            "lineNumber": 6740,
             "description": "NAPI polling entry point. Called by softirq to process received packets from the driver's ring buffer.",
             "isEntryPoint": true
           },
@@ -1112,7 +1112,7 @@
             "name": "napi_gro_receive",
             "layer": "Device Driver",
             "sourceFile": "net/core/dev.c",
-            "lineNumber": 5895,
+            "lineNumber": 6081,
             "description": "Generic Receive Offload handler. XDP programs run here before sk_buff allocation.",
             "bpfHook": {
               "type": "XDP",
@@ -1132,7 +1132,7 @@
             "name": "napi_skb_finish",
             "layer": "Device Driver",
             "sourceFile": "net/core/dev.c",
-            "lineNumber": 5767,
+            "lineNumber": 6052,
             "description": "Finishes GRO processing and passes the sk_buff up the stack."
           },
           {
@@ -1140,7 +1140,7 @@
             "name": "netif_receive_skb",
             "layer": "Data Link Layer",
             "sourceFile": "net/core/dev.c",
-            "lineNumber": 5362,
+            "lineNumber": 5583,
             "description": "Main entry point for receiving packets from the driver. Timestamps and prepares the packet."
           },
           {
@@ -1148,7 +1148,7 @@
             "name": "netif_receive_skb_internal",
             "layer": "Data Link Layer",
             "sourceFile": "net/core/dev.c",
-            "lineNumber": 5320,
+            "lineNumber": 5508,
             "description": "Internal receive handler. Handles RPS (Receive Packet Steering) if enabled."
           },
           {
@@ -1156,7 +1156,7 @@
             "name": "__netif_receive_skb",
             "layer": "Data Link Layer",
             "sourceFile": "net/core/dev.c",
-            "lineNumber": 5247,
+            "lineNumber": 5405,
             "description": "Core receive function. TC ingress BPF programs and generic XDP run here.",
             "bpfHook": {
               "type": "TC_INGRESS",
@@ -1175,7 +1175,7 @@
             "name": "__netif_receive_skb_one_core",
             "layer": "Data Link Layer",
             "sourceFile": "net/core/dev.c",
-            "lineNumber": 5198,
+            "lineNumber": 5303,
             "description": "Single-core receive path. Processes packet on current CPU."
           },
           {
@@ -1183,7 +1183,7 @@
             "name": "__netif_receive_skb_core",
             "layer": "Data Link Layer",
             "sourceFile": "net/core/dev.c",
-            "lineNumber": 5067,
+            "lineNumber": 5099,
             "description": "Core packet classification. Strips Ethernet header and determines protocol handler.",
             "skbMutation": {
               "operation": "pull",
@@ -1197,7 +1197,7 @@
             "name": "deliver_skb",
             "layer": "Data Link Layer",
             "sourceFile": "net/core/dev.c",
-            "lineNumber": 1988,
+            "lineNumber": 2248,
             "description": "Delivers packet to the registered protocol handler (e.g., ip_rcv for IPv4)."
           },
           {
@@ -1205,7 +1205,7 @@
             "name": "ip_rcv",
             "layer": "Network Layer",
             "sourceFile": "net/ipv4/ip_input.c",
-            "lineNumber": 523,
+            "lineNumber": 530,
             "description": "IPv4 receive entry point. Validates IP header checksum and invokes PREROUTING netfilter hook.",
             "netfilterHook": {
               "hook": "PREROUTING",
@@ -1223,7 +1223,7 @@
             "name": "ip_rcv_finish",
             "layer": "Network Layer",
             "sourceFile": "net/ipv4/ip_input.c",
-            "lineNumber": 401,
+            "lineNumber": 414,
             "description": "Finishes IP header processing. Performs routing lookup and strips IP header.",
             "skbMutation": {
               "operation": "pull",
@@ -1237,7 +1237,7 @@
             "name": "ip_local_deliver",
             "layer": "Network Layer",
             "sourceFile": "net/ipv4/ip_input.c",
-            "lineNumber": 241,
+            "lineNumber": 240,
             "description": "Handles locally destined packets. Reassembles IP fragments if needed."
           },
           {
@@ -1245,7 +1245,7 @@
             "name": "ip_local_deliver_finish",
             "layer": "Network Layer",
             "sourceFile": "net/ipv4/ip_input.c",
-            "lineNumber": 216,
+            "lineNumber": 226,
             "description": "Invokes INPUT netfilter hook before passing to transport layer.",
             "netfilterHook": {
               "hook": "INPUT",
@@ -1261,7 +1261,7 @@
             "name": "ip_protocol_deliver_rcu",
             "layer": "Network Layer",
             "sourceFile": "net/ipv4/ip_input.c",
-            "lineNumber": 185,
+            "lineNumber": 187,
             "description": "Dispatches packet to the transport protocol handler based on IP protocol field."
           },
           {
@@ -1269,7 +1269,7 @@
             "name": "tcp_v4_rcv",
             "layer": "Transport Layer",
             "sourceFile": "net/ipv4/tcp_ipv4.c",
-            "lineNumber": 1926,
+            "lineNumber": 1915,
             "description": "TCP receive entry point. Validates TCP checksum and looks up socket."
           },
           {
@@ -1277,7 +1277,7 @@
             "name": "tcp_v4_do_rcv",
             "layer": "Transport Layer",
             "sourceFile": "net/ipv4/tcp_ipv4.c",
-            "lineNumber": 1651,
+            "lineNumber": 1655,
             "description": "Main TCP receive handler. Processes TCP header and updates connection state.",
             "skbMutation": {
               "operation": "pull",
@@ -1291,7 +1291,7 @@
             "name": "tcp_rcv_established",
             "layer": "Transport Layer",
             "sourceFile": "net/ipv4/tcp_input.c",
-            "lineNumber": 5685,
+            "lineNumber": 5704,
             "description": "Fast path for established connections. Handles ACKs, window updates, and data."
           },
           {
@@ -1299,7 +1299,7 @@
             "name": "tcp_data_queue",
             "layer": "Transport Layer",
             "sourceFile": "net/ipv4/tcp_input.c",
-            "lineNumber": 4796,
+            "lineNumber": 4919,
             "description": "Queues received data. Handles out-of-order segments and SACK."
           },
           {
@@ -1307,7 +1307,7 @@
             "name": "tcp_queue_rcv",
             "layer": "Transport Layer",
             "sourceFile": "net/ipv4/tcp_input.c",
-            "lineNumber": 4748,
+            "lineNumber": 4837,
             "description": "Adds data to socket receive queue. Updates TCP receive window."
           },
           {
@@ -1315,7 +1315,7 @@
             "name": "sk_data_ready",
             "layer": "Socket Layer",
             "sourceFile": "net/core/sock.c",
-            "lineNumber": 2768,
+            "lineNumber": 2990,
             "description": "Wakes up any process waiting to read from the socket. Data is now available for recv().",
             "isExitPoint": true
           }
@@ -1436,7 +1436,7 @@
             "name": "napi_poll",
             "layer": "Device Driver",
             "sourceFile": "net/core/dev.c",
-            "lineNumber": 6513,
+            "lineNumber": 6740,
             "description": "NAPI polling entry point. Called by softirq to process received packets from the driver's ring buffer.",
             "isEntryPoint": true
           },
@@ -1475,7 +1475,7 @@
             "name": "napi_gro_receive",
             "layer": "Device Driver",
             "sourceFile": "net/core/dev.c",
-            "lineNumber": 5895,
+            "lineNumber": 6081,
             "description": "Generic Receive Offload handler. XDP programs run here before sk_buff allocation.",
             "bpfHook": {
               "type": "XDP",
@@ -1525,7 +1525,7 @@
             "name": "napi_skb_finish",
             "layer": "Device Driver",
             "sourceFile": "net/core/dev.c",
-            "lineNumber": 5767,
+            "lineNumber": 6052,
             "description": "Finishes GRO processing and passes the sk_buff up the stack."
           },
           "skbuffState": {
@@ -1563,7 +1563,7 @@
             "name": "netif_receive_skb",
             "layer": "Data Link Layer",
             "sourceFile": "net/core/dev.c",
-            "lineNumber": 5362,
+            "lineNumber": 5583,
             "description": "Main entry point for receiving packets from the driver. Timestamps and prepares the packet."
           },
           "skbuffState": {
@@ -1601,7 +1601,7 @@
             "name": "netif_receive_skb_internal",
             "layer": "Data Link Layer",
             "sourceFile": "net/core/dev.c",
-            "lineNumber": 5320,
+            "lineNumber": 5508,
             "description": "Internal receive handler. Handles RPS (Receive Packet Steering) if enabled."
           },
           "skbuffState": {
@@ -1639,7 +1639,7 @@
             "name": "__netif_receive_skb",
             "layer": "Data Link Layer",
             "sourceFile": "net/core/dev.c",
-            "lineNumber": 5247,
+            "lineNumber": 5405,
             "description": "Core receive function. TC ingress BPF programs and generic XDP run here.",
             "bpfHook": {
               "type": "TC_INGRESS",
@@ -1688,7 +1688,7 @@
             "name": "__netif_receive_skb_one_core",
             "layer": "Data Link Layer",
             "sourceFile": "net/core/dev.c",
-            "lineNumber": 5198,
+            "lineNumber": 5303,
             "description": "Single-core receive path. Processes packet on current CPU."
           },
           "skbuffState": {
@@ -1726,7 +1726,7 @@
             "name": "__netif_receive_skb_core",
             "layer": "Data Link Layer",
             "sourceFile": "net/core/dev.c",
-            "lineNumber": 5067,
+            "lineNumber": 5099,
             "description": "Core packet classification. Strips Ethernet header and determines protocol handler.",
             "skbMutation": {
               "operation": "pull",
@@ -1765,7 +1765,7 @@
             "name": "deliver_skb",
             "layer": "Data Link Layer",
             "sourceFile": "net/core/dev.c",
-            "lineNumber": 1988,
+            "lineNumber": 2248,
             "description": "Delivers packet to the registered protocol handler (e.g., ip_rcv for IPv4)."
           },
           "skbuffState": {
@@ -1798,7 +1798,7 @@
             "name": "ip_rcv",
             "layer": "Network Layer",
             "sourceFile": "net/ipv4/ip_input.c",
-            "lineNumber": 523,
+            "lineNumber": 530,
             "description": "IPv4 receive entry point. Validates IP header checksum and invokes PREROUTING netfilter hook.",
             "netfilterHook": {
               "hook": "PREROUTING",
@@ -1841,7 +1841,7 @@
             "name": "ip_rcv_finish",
             "layer": "Network Layer",
             "sourceFile": "net/ipv4/ip_input.c",
-            "lineNumber": 401,
+            "lineNumber": 414,
             "description": "Finishes IP header processing. Performs routing lookup and strips IP header.",
             "skbMutation": {
               "operation": "pull",
@@ -1875,7 +1875,7 @@
             "name": "ip_local_deliver",
             "layer": "Network Layer",
             "sourceFile": "net/ipv4/ip_input.c",
-            "lineNumber": 241,
+            "lineNumber": 240,
             "description": "Handles locally destined packets. Reassembles IP fragments if needed."
           },
           "skbuffState": {
@@ -1903,7 +1903,7 @@
             "name": "ip_local_deliver_finish",
             "layer": "Network Layer",
             "sourceFile": "net/ipv4/ip_input.c",
-            "lineNumber": 216,
+            "lineNumber": 226,
             "description": "Invokes INPUT netfilter hook before passing to transport layer.",
             "netfilterHook": {
               "hook": "INPUT",
@@ -1939,7 +1939,7 @@
             "name": "ip_protocol_deliver_rcu",
             "layer": "Network Layer",
             "sourceFile": "net/ipv4/ip_input.c",
-            "lineNumber": 185,
+            "lineNumber": 187,
             "description": "Dispatches packet to the transport protocol handler based on IP protocol field."
           },
           "skbuffState": {
@@ -1967,7 +1967,7 @@
             "name": "tcp_v4_rcv",
             "layer": "Transport Layer",
             "sourceFile": "net/ipv4/tcp_ipv4.c",
-            "lineNumber": 1926,
+            "lineNumber": 1915,
             "description": "TCP receive entry point. Validates TCP checksum and looks up socket."
           },
           "skbuffState": {
@@ -1995,7 +1995,7 @@
             "name": "tcp_v4_do_rcv",
             "layer": "Transport Layer",
             "sourceFile": "net/ipv4/tcp_ipv4.c",
-            "lineNumber": 1651,
+            "lineNumber": 1655,
             "description": "Main TCP receive handler. Processes TCP header and updates connection state.",
             "skbMutation": {
               "operation": "pull",
@@ -2023,7 +2023,7 @@
             "name": "tcp_rcv_established",
             "layer": "Transport Layer",
             "sourceFile": "net/ipv4/tcp_input.c",
-            "lineNumber": 5685,
+            "lineNumber": 5704,
             "description": "Fast path for established connections. Handles ACKs, window updates, and data."
           },
           "skbuffState": {
@@ -2045,7 +2045,7 @@
             "name": "tcp_data_queue",
             "layer": "Transport Layer",
             "sourceFile": "net/ipv4/tcp_input.c",
-            "lineNumber": 4796,
+            "lineNumber": 4919,
             "description": "Queues received data. Handles out-of-order segments and SACK."
           },
           "skbuffState": {
@@ -2067,7 +2067,7 @@
             "name": "tcp_queue_rcv",
             "layer": "Transport Layer",
             "sourceFile": "net/ipv4/tcp_input.c",
-            "lineNumber": 4748,
+            "lineNumber": 4837,
             "description": "Adds data to socket receive queue. Updates TCP receive window."
           },
           "skbuffState": {
@@ -2089,7 +2089,7 @@
             "name": "sk_data_ready",
             "layer": "Socket Layer",
             "sourceFile": "net/core/sock.c",
-            "lineNumber": 2768,
+            "lineNumber": 2990,
             "description": "Wakes up any process waiting to read from the socket. Data is now available for recv().",
             "isExitPoint": true
           },

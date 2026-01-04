@@ -1179,4 +1179,124 @@ body {
   .function-node .node-name {
     font-size: 9px;
   }
+
+  /* ===================================
+     Mobile Overflow Prevention
+     =================================== */
+
+  /* Prevent all content from causing horizontal scroll */
+  .app,
+  .sidebar,
+  .canvas-container,
+  .controls-container {
+    max-width: 100vw;
+    overflow-x: hidden;
+  }
+
+  /* Sidebar sections - prevent overflow */
+  .sidebar-section {
+    max-width: 100%;
+    overflow-x: hidden;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+
+  /* Function info - text wrapping */
+  .function-info {
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+
+  .function-info .fn-name {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+    font-size: 0.9rem;
+  }
+
+  .function-info .fn-file,
+  .function-info .fn-file-link {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+    font-size: 0.7rem;
+    display: block;
+    max-width: 100%;
+  }
+
+  .function-info .fn-description {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+    font-size: 0.8rem;
+    line-height: 1.5;
+  }
+
+  /* Mutation badge - wrap if needed */
+  .mutation-badge {
+    flex-wrap: wrap;
+    max-width: 100%;
+  }
+
+  /* Netfilter and BPF info sections */
+  .netfilter-info,
+  .bpf-info {
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+
+  .netfilter-info .hook-description,
+  .bpf-info .hook-description {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    font-size: 0.75rem;
+  }
+
+  .netfilter-info .hook-tables,
+  .bpf-info .hook-actions {
+    flex-wrap: wrap;
+  }
+
+  /* Conntrack info */
+  .conntrack-info {
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+
+  .conntrack-description {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    font-size: 0.75rem;
+  }
+
+  .conntrack-state-diagram {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .state-machine {
+    min-width: min-content;
+  }
+
+  /* SK Buff diagram */
+  .skbuff-diagram {
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+
+  .skbuff-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .skbuff-pointers {
+    font-size: 9px;
+    flex-wrap: wrap;
+    gap: var(--spacing-xs);
+  }
+
+  /* Prevent body from scrolling horizontally */
+  body {
+    overflow-x: hidden;
+    width: 100%;
+  }
 }
