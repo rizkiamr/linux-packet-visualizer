@@ -1122,10 +1122,11 @@ body {
   /* Mobile header - two-row layout matching sketch design */
   .app-header {
     flex-wrap: wrap;
-    gap: var(--spacing-md);
+    gap: var(--spacing-sm) var(--spacing-md);
     padding: var(--spacing-md) var(--spacing-lg);
     min-height: auto;
     height: auto;
+    justify-content: space-between;
   }
 
   /* Row 1: Title centered, takes full width */
@@ -1136,12 +1137,6 @@ body {
     align-items: center;
     justify-content: center;
     text-align: center;
-    order: 1;
-  }
-
-  /* Hide kernel version from title row on mobile - it goes to row 2 */
-  .app-header h1 .kernel-version {
-    display: none;
   }
 
   /* Row 2: Controls spread out - left, center, right */
@@ -1149,7 +1144,6 @@ body {
     margin-left: 0;
     font-size: 0.7rem;
     flex-shrink: 0;
-    order: 2;
   }
 
   .path-selector {
@@ -1160,7 +1154,6 @@ body {
     align-items: center;
     justify-content: center;
     gap: var(--spacing-xs);
-    order: 3;
   }
 
   .path-select {
@@ -1179,7 +1172,6 @@ body {
     padding: var(--spacing-xs);
     margin-left: 0;
     flex-shrink: 0;
-    order: 4;
   }
 
   /* Mobile node styling - hide file names */
