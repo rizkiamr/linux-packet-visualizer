@@ -2,6 +2,8 @@
 
 An interactive Single Page Application for visualizing the Linux kernel packet path. Built for **SRE teaching** to help understand how packets flow through the networking stack.
 
+> It's live at [linux-packet-visualizer.pages.dev](https://linux-packet-visualizer.pages.dev)
+
 ![Linux Packet Visualizer](https://img.shields.io/badge/Linux-5.10.8-yellow)
 ![Go](https://img.shields.io/badge/Go-1.21+-00ADD8)
 ![React](https://img.shields.io/badge/React-18+-61DAFB)
