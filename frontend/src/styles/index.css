@@ -1075,10 +1075,15 @@ body {
     overflow: visible !important;
   }
 
-  /* Canvas expands to fit content */
+  /* Canvas expands to fit content, but constrained to viewport */
   .canvas-container {
     height: auto !important;
     overflow: visible !important;
+    max-width: 100vw;
+  }
+
+  .svg-canvas {
+    max-width: 100% !important;
   }
 
   .sidebar {
@@ -1092,5 +1097,71 @@ body {
     position: sticky;
     bottom: 0;
     z-index: 100;
+    padding: var(--spacing-md) var(--spacing-lg);
+  }
+
+  .controls-container {
+    padding: var(--spacing-md) var(--spacing-lg);
+  }
+
+  /* Mobile header - two-row layout */
+  .app-header {
+    flex-wrap: wrap;
+    gap: var(--spacing-xs) var(--spacing-sm);
+    padding: var(--spacing-sm) var(--spacing-md);
+    min-height: auto;
+    height: auto;
+  }
+
+  /* Row 1: Title takes full width */
+  .app-header h1 {
+    font-size: 0.95rem;
+    flex: 1 1 100%;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+  }
+
+  .app-header .kernel-version {
+    margin-left: 0;
+    font-size: 0.65rem;
+    flex-shrink: 0;
+  }
+
+  /* Row 2: Controls in a row */
+  .path-selector {
+    flex: 1 1 auto;
+    min-width: 0;
+    margin-left: 0;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+  }
+
+  .path-select {
+    flex: 1;
+    max-width: none;
+    font-size: 0.75rem;
+    padding: var(--spacing-xs) var(--spacing-sm);
+  }
+
+  .direction-badge {
+    font-size: 0.65rem;
+    padding: 2px 6px;
+  }
+
+  .theme-toggle {
+    padding: var(--spacing-xs);
+    margin-left: auto;
+    flex-shrink: 0;
+  }
+
+  /* Mobile node styling - hide file names */
+  .function-node .node-file {
+    display: none;
+  }
+
+  .function-node .node-name {
+    font-size: 9px;
   }
 }
