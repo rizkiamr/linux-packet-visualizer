@@ -37,8 +37,8 @@ export function FunctionInfo({ fn, kernelVersion }) {
         const version = kernelVersion || '5.10.8';
         // Use exact version tag (e.g., "v5.10.8") to ensure line numbers match
         const tag = `v${version}`;
-        const line = fn.lineNumber ? `#n${fn.lineNumber}` : '';
-        return `https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/tree/${fn.sourceFile}?h=${tag}${line}`;
+        const line = fn.lineNumber ? `#L${fn.lineNumber}` : '';
+        return `https://elixir.bootlin.com/linux/${tag}/source/${fn.sourceFile}${line}`;
     };
 
     const sourceUrl = getKernelSourceUrl();
